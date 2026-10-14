@@ -1,0 +1,509 @@
+<div class="juhend">
+    <aside class="kaart sisukord">
+        <input id="otsi" type="search" placeholder="Otsi (nt diskriminant)" aria-label="Otsi juhendist" />
+        <nav id="sisukord">
+            <a href="#plaan">Uurimise plaan</a>
+            <a href="#mp">Määramispiirkond</a>
+            <a href="#y">Lõikepunkt y-teljega</a>
+            <a href="#null">Nullkohad (võrrandid)</a>
+            <a href="#marg">Positiivsus ja negatiivsus</a>
+            <a href="#t1">Tuletis</a>
+            <a href="#kp">Kriitilised punktid</a>
+            <a href="#mon">Kasvamine ja kahanemine</a>
+            <a href="#ekst">Ekstreemumid</a>
+            <a href="#t2">Teine tuletis</a>
+            <a href="#kum">Kumerus ja nõgusus</a>
+            <a href="#kaanu">Käänupunktid</a>
+            <a href="#puut">Puutuja ja normaal</a>
+            <a href="#vaart">Väärtus punktis</a>
+            <a href="#asym">Asümptoodid</a>
+            <a href="#vead">Sagedased vead</a>
+            <a href="#klaviatuur">Kuidas valemit sisestada</a>
+        </nav>
+    </aside>
+
+    <div id="teemad">
+        <div class="kaart">
+            <h1 class="h3 mb-1">Juhend: kuidas funktsiooni uurida</h1>
+            <p class="mb-0 vihje" style="font-size:1rem">Iga teema juures on reegel, kõik tüüpjuhtumid ja lahendatud näide. Nupp <span class="proovi">Proovi →</span> avab näite kalkulaatoris, kus näed sama lahendust sammhaaval ja graafikul.</p>
+        </div>
+
+        <!-- ================= PLAAN ================= -->
+        <section class="kaart teema" id="plaan">
+            <h2><span class="valik-ikoon">▦</span> Funktsiooni uurimise plaan</h2>
+            <p>Täielik uurimine käib alati samas järjekorras. Iga järgmine samm kasutab eelmiste tulemusi.</p>
+            <table class="juhtumid">
+                <thead><tr><th>#</th><th>Mida leiame</th><th>Kuidas</th></tr></thead>
+                <tbody>
+                    <tr><td>1</td><td><a href="#mp">Määramispiirkond</a> \(X\)</td><td>Leiame, milliseid x-e ei tohi võtta</td></tr>
+                    <tr><td>2</td><td><a href="#y">Lõikepunkt y-teljega</a></td><td>Arvutame \(f(0)\)</td></tr>
+                    <tr><td>3</td><td><a href="#null">Nullkohad</a> \(X_0\)</td><td>Lahendame \(f(x)=0\)</td></tr>
+                    <tr><td>4</td><td><a href="#marg">Positiivsus- ja negatiivsuspiirkond</a> \(X^+,\ X^-\)</td><td>Vaatame \(f(x)\) märki vahemikes</td></tr>
+                    <tr><td>5</td><td><a href="#t1">Tuletis</a> \(f'(x)\)</td><td>Tuletise reeglid</td></tr>
+                    <tr><td>6</td><td><a href="#kp">Kriitilised punktid</a></td><td>Lahendame \(f'(x)=0\)</td></tr>
+                    <tr><td>7</td><td><a href="#mon">Kasvamine ja kahanemine</a> \(X^\uparrow,\ X^\downarrow\)</td><td>Vaatame \(f'(x)\) märki</td></tr>
+                    <tr><td>8</td><td><a href="#ekst">Ekstreemumid</a></td><td>Kus \(f'(x)\) muudab märki</td></tr>
+                    <tr><td>9</td><td><a href="#t2">Teine tuletis</a> \(f''(x)\)</td><td>Tuletame \(f'(x)\)</td></tr>
+                    <tr><td>10</td><td><a href="#kum">Kumerus ja nõgusus</a>, <a href="#kaanu">käänupunktid</a></td><td>Vaatame \(f''(x)\) märki</td></tr>
+                    <tr><td>11</td><td>Graafik</td><td>Kanname kõik leitud punktid teljestikku</td></tr>
+                </tbody>
+            </table>
+            <div class="naidis">
+                <div class="naidis-pea">Täielik näide: \(f(x)=x^3-3x\) <a class="proovi" asp-action="Index" asp-route-valem="x^3 - 3*x">Proovi →</a></div>
+                <div class="naidis-sisu">
+                    <ol>
+                        <li>\(X=(-\infty;\ \infty)\) — polünoom, piiranguid pole.</li>
+                        <li>\(f(0)=0\) ⇒ lõikepunkt y-teljega \((0;\ 0)\).</li>
+                        <li>\(x^3-3x=0 \Rightarrow x(x^2-3)=0 \Rightarrow x=0,\ x=\pm\sqrt3\).</li>
+                        <li>\(X^+=(-\sqrt3;\ 0)\cup(\sqrt3;\ \infty)\), \(X^-=(-\infty;\ -\sqrt3)\cup(0;\ \sqrt3)\).</li>
+                        <li>\(f'(x)=3x^2-3\).</li>
+                        <li>\(3x^2-3=0 \Rightarrow x=\pm1\).</li>
+                        <li>Kasvab \((-\infty;\ -1)\cup(1;\ \infty)\), kahaneb \((-1;\ 1)\).</li>
+                        <li>\(\max f(-1)=2\), \(\min f(1)=-2\).</li>
+                        <li>\(f''(x)=6x\).</li>
+                        <li>Kumer ∩ \((-\infty;\ 0)\), nõgus ∪ \((0;\ \infty)\), käänupunkt \((0;\ 0)\).</li>
+                    </ol>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= MÄÄRAMISPIIRKOND ================= -->
+        <section class="kaart teema" id="mp">
+            <h2><span class="valik-ikoon">X</span> Määramispiirkond</h2>
+            <div class="reegel"><b>Reegel.</b> Määramispiirkond \(X\) on kõigi nende \(x\) väärtuste hulk, mille korral \(f(x)\) saab arvutada. Otsi valemist „ohtlikke kohti“: murd, juur, logaritm.</div>
+            <table class="juhtumid">
+                <thead><tr><th>Valemis on</th><th>Tingimus</th><th>Näide</th></tr></thead>
+                <tbody>
+                    <tr><td>ainult \(+,\ -,\ \cdot\) ja astmed (polünoom)</td><td>piiranguid pole</td><td>\(x^3-3x \Rightarrow X=(-\infty;\ \infty)\)</td></tr>
+                    <tr><td>murd, \(x\) nimetajas \(\dfrac{u}{v}\)</td><td>\(v\neq 0\)</td><td>\(\dfrac{1}{x-2} \Rightarrow x\neq2 \Rightarrow X=\mathbb R\setminus\{2\}\)</td></tr>
+                    <tr><td>ruutjuur (paarisjuur) \(\sqrt{u}\)</td><td>\(u\ge 0\)</td><td>\(\sqrt{x-1} \Rightarrow x\ge1 \Rightarrow X=[1;\ \infty)\)</td></tr>
+                    <tr><td>juur nimetajas \(\dfrac{1}{\sqrt{u}}\)</td><td>\(u&gt;0\)</td><td>\(\dfrac{1}{\sqrt{4-x}} \Rightarrow x&lt;4 \Rightarrow X=(-\infty;\ 4)\)</td></tr>
+                    <tr><td>logaritm \(\ln u\)</td><td>\(u&gt;0\)</td><td>\(\ln(x+3) \Rightarrow x&gt;-3 \Rightarrow X=(-3;\ \infty)\)</td></tr>
+                    <tr><td>\(\ln u\) nimetajas \(\dfrac{1}{\ln u}\)</td><td>\(u&gt;0\) ja \(u\neq1\)</td><td>\(\dfrac{1}{\ln x} \Rightarrow X=(0;\ 1)\cup(1;\ \infty)\)</td></tr>
+                    <tr><td>paaritu juur \(\sqrt[3]{u}\)</td><td>piiranguid pole*</td><td>\(\sqrt[3]{x}\Rightarrow X=(-\infty;\ \infty)\)</td></tr>
+                    <tr><td>\(\sin x,\ \cos x,\ e^x\)</td><td>piiranguid pole</td><td>\(e^{x}\sin x \Rightarrow X=(-\infty;\ \infty)\)</td></tr>
+                    <tr><td>\(\tan x\)</td><td>\(\cos x\neq0\)</td><td>\(x\neq\frac{\pi}{2}+k\pi\)</td></tr>
+                </tbody>
+            </table>
+            <p class="vihje">* Kalkulaator arvutab paaritu juure ainult mittenegatiivsete arvude jaoks, seega näitab ta \(\sqrt[3]{x}\) määramispiirkonnaks \([0;\ \infty)\).</p>
+            <p>Kui ohtlikke kohti on mitu, peavad <b>kõik tingimused kehtima korraga</b> (võta ühisosa).</p>
+
+            <div class="naidis">
+                <div class="naidis-pea">Näide 1 — murd: \(f(x)=\dfrac{x+1}{x^2-4}\) <a class="proovi" asp-action="Index" asp-route-valem="(x+1)/(x^2-4)" asp-route-leia="mp">Proovi →</a></div>
+                <div class="naidis-sisu">Nimetaja ei tohi olla null: \(x^2-4\neq0 \Rightarrow x^2\neq4 \Rightarrow x\neq\pm2\).<br />Vastus: \(X=\mathbb R\setminus\{-2;\ 2\}\).</div>
+            </div>
+            <div class="naidis">
+                <div class="naidis-pea">Näide 2 — juur: \(f(x)=\sqrt{6-2x}\) <a class="proovi" asp-action="Index" asp-route-valem="(6-2*x)^(1/2)" asp-route-leia="mp">Proovi →</a></div>
+                <div class="naidis-sisu">Juure all peab olema mittenegatiivne arv: \(6-2x\ge0 \Rightarrow -2x\ge-6 \Rightarrow x\le3\).<br />
+                    Negatiivse arvuga jagades pöördub võrratuse märk!<br />Vastus: \(X=(-\infty;\ 3]\).</div>
+            </div>
+            <div class="naidis">
+                <div class="naidis-pea">Näide 3 — logaritm ja ruutvõrratus: \(f(x)=\ln(x^2-9)\) <a class="proovi" asp-action="Index" asp-route-valem="ln(x^2-9)" asp-route-leia="mp">Proovi →</a></div>
+                <div class="naidis-sisu">Tingimus: \(x^2-9&gt;0\). Lahendame kõigepealt \(x^2-9=0 \Rightarrow x=\pm3\).<br />
+                    Parabool \(y=x^2-9\) avaneb üles, seega on ta positiivne <b>väljaspool</b> nullkohti.<br />Vastus: \(X=(-\infty;\ -3)\cup(3;\ \infty)\).</div>
+            </div>
+        </section>
+
+        <!-- ================= Y-TELG ================= -->
+        <section class="kaart teema" id="y">
+            <h2><span class="valik-ikoon">↕</span> Lõikepunkt y-teljega</h2>
+            <div class="reegel"><b>Reegel.</b> y-teljel on \(x=0\). Arvuta \(f(0)\) — lõikepunkt on \((0;\ f(0))\). Kui \(0\notin X\), siis graafik y-telge ei lõika.</div>
+            <div class="naidis">
+                <div class="naidis-pea">Näide: \(f(x)=x^2-4x+3\) <a class="proovi" asp-action="Index" asp-route-valem="x^2 - 4*x + 3" asp-route-leia="y">Proovi →</a></div>
+                <div class="naidis-sisu">\(f(0)=0^2-4\cdot0+3=3\) ⇒ lõikepunkt \((0;\ 3)\).<br />
+                    Polünoomi korral on see alati vabaliige (arv ilma x-ita).</div>
+            </div>
+            <div class="naidis">
+                <div class="naidis-pea">Näide: \(f(x)=\dfrac{1}{x}\) <a class="proovi" asp-action="Index" asp-route-valem="1/x" asp-route-leia="y">Proovi →</a></div>
+                <div class="naidis-sisu">\(x=0\) korral jagaksime nulliga ⇒ \(0\notin X\) ⇒ lõikepunkti y-teljega pole.</div>
+            </div>
+        </section>
+
+        <!-- ================= NULLKOHAD ================= -->
+        <section class="kaart teema" id="null">
+            <h2><span class="valik-ikoon">0</span> Nullkohad — kuidas võrrandeid lahendada</h2>
+            <div class="reegel"><b>Reegel.</b> Nullkohad on \(x\) väärtused, kus \(f(x)=0\). Graafik lõikab seal x-telge. Vali võrrandi kuju järgi õige võte.</div>
+
+            <table class="juhtumid">
+                <thead><tr><th>Võrrandi kuju</th><th>Võte</th></tr></thead>
+                <tbody>
+                    <tr><td>\(ax+b=0\)</td><td><a href="#null-a">Lineaarvõrrand</a>: \(x=-\frac{b}{a}\)</td></tr>
+                    <tr><td>\(ax^2+bx+c=0\)</td><td><a href="#null-b">Diskriminant</a></td></tr>
+                    <tr><td>\(ax^2+bx=0\) või \(ax^2+c=0\)</td><td><a href="#null-c">Mittetäielik ruutvõrrand</a></td></tr>
+                    <tr><td>igas liikmes on \(x\)</td><td><a href="#null-d">Too \(x\) sulgude ette</a></td></tr>
+                    <tr><td>\(ax^4+bx^2+c=0\)</td><td><a href="#null-e">Bikvadraatvõrrand</a>: \(t=x^2\)</td></tr>
+                    <tr><td>3. või kõrgem aste</td><td><a href="#null-f">Arvamine + Horneri skeem</a></td></tr>
+                    <tr><td>\(\dfrac{u}{v}=0\)</td><td><a href="#null-g">Murdvõrrand</a>: \(u=0\), \(v\neq0\)</td></tr>
+                    <tr><td>\(u\cdot e^{x}=0\)</td><td><a href="#null-h">\(e^x&gt;0\)</a>, seega \(u=0\)</td></tr>
+                    <tr><td>\(\ln u=0\)</td><td><a href="#null-i">\(u=1\)</a></td></tr>
+                    <tr><td>\(\sin x=0\), \(\cos x=0\)</td><td><a href="#null-j">Trigonomeetria</a></td></tr>
+                </tbody>
+            </table>
+
+            <h3 id="null-a">A. Lineaarvõrrand</h3>
+            <div class="naidis">
+                <div class="naidis-pea">\(2x-6=0\) <a class="proovi" asp-action="Index" asp-route-valem="2*x - 6" asp-route-leia="null">Proovi →</a></div>
+                <div class="naidis-sisu">Viime arvu teisele poole: \(2x=6\), jagame kahega: \(x=3\).</div>
+            </div>
+
+            <h3 id="null-b">B. Ruutvõrrand — diskriminant</h3>
+            <div class="reegel">
+                \(ax^2+bx+c=0\): &nbsp; \(D=b^2-4ac\), &nbsp; \(x_{1,2}=\dfrac{-b\pm\sqrt D}{2a}\)<br />
+                \(D&gt;0\) — kaks lahendit; &nbsp; \(D=0\) — üks lahend; &nbsp; \(D&lt;0\) — reaalarvulisi lahendeid pole.
+            </div>
+            <div class="naidis">
+                <div class="naidis-pea">\(D&gt;0\): \(x^2-4x+3=0\) <a class="proovi" asp-action="Index" asp-route-valem="x^2 - 4*x + 3" asp-route-leia="null">Proovi →</a></div>
+                <div class="naidis-sisu">\(a=1,\ b=-4,\ c=3\).<br />\(D=(-4)^2-4\cdot1\cdot3=16-12=4\), \(\sqrt D=2\).<br />
+                    \(x_1=\dfrac{4-2}{2}=1\), &nbsp; \(x_2=\dfrac{4+2}{2}=3\).</div>
+            </div>
+            <div class="naidis">
+                <div class="naidis-pea">\(D=0\): \(x^2-6x+9=0\) <a class="proovi" asp-action="Index" asp-route-valem="x^2 - 6*x + 9" asp-route-leia="null">Proovi →</a></div>
+                <div class="naidis-sisu">\(D=36-36=0\) ⇒ \(x=\dfrac{-b}{2a}=\dfrac{6}{2}=3\). Graafik ainult puudutab x-telge.</div>
+            </div>
+            <div class="naidis">
+                <div class="naidis-pea">\(D&lt;0\): \(x^2+2x+5=0\) <a class="proovi" asp-action="Index" asp-route-valem="x^2 + 2*x + 5" asp-route-leia="null">Proovi →</a></div>
+                <div class="naidis-sisu">\(D=4-20=-16&lt;0\) ⇒ lahendeid pole. Graafik on tervenisti x-telje kohal.</div>
+            </div>
+            <div class="reegel"><b>Taandatud ruutvõrrand</b> (\(a=1\)): \(x^2+px+q=0 \Rightarrow x_{1,2}=-\dfrac p2\pm\sqrt{\left(\dfrac p2\right)^2-q}\).<br />
+                Näide: \(x^2-4x+3=0\): \(x=2\pm\sqrt{4-3}=2\pm1\) ⇒ \(x_1=1,\ x_2=3\).</div>
+
+            <h3 id="null-c">C. Mittetäielik ruutvõrrand</h3>
+            <div class="naidis">
+                <div class="naidis-pea">\(c=0\): \(x^2-5x=0\) <a class="proovi" asp-action="Index" asp-route-valem="x^2 - 5*x" asp-route-leia="null">Proovi →</a></div>
+                <div class="naidis-sisu">Toome \(x\) sulgude ette: \(x(x-5)=0\). Korrutis on null, kui üks tegur on null: \(x=0\) või \(x=5\).<br />
+                    Ära jaga \(x\)-ga — kaotad lahendi \(x=0\)!</div>
+            </div>
+            <div class="naidis">
+                <div class="naidis-pea">\(b=0\): \(x^2-9=0\) <a class="proovi" asp-action="Index" asp-route-valem="x^2 - 9" asp-route-leia="null">Proovi →</a></div>
+                <div class="naidis-sisu">\(x^2=9 \Rightarrow x=\pm3\). &nbsp; Aga \(x^2+4=0 \Rightarrow x^2=-4\) — lahendeid pole (ruut ei ole negatiivne).</div>
+            </div>
+
+            <h3 id="null-d">D. Sulgude ette toomine</h3>
+            <div class="naidis">
+                <div class="naidis-pea">\(x^3-4x=0\) <a class="proovi" asp-action="Index" asp-route-valem="x^3 - 4*x" asp-route-leia="null">Proovi →</a></div>
+                <div class="naidis-sisu">\(x(x^2-4)=0 \Rightarrow x=0\) või \(x^2=4 \Rightarrow x=\pm2\).<br />Lahendid: \(-2;\ 0;\ 2\).</div>
+            </div>
+
+            <h3 id="null-e">E. Bikvadraatvõrrand</h3>
+            <div class="naidis">
+                <div class="naidis-pea">\(x^4-5x^2+4=0\) <a class="proovi" asp-action="Index" asp-route-valem="x^4 - 5*x^2 + 4" asp-route-leia="null">Proovi →</a></div>
+                <div class="naidis-sisu">Asendus \(t=x^2\): \(t^2-5t+4=0\), \(D=25-16=9\), \(t_1=1,\ t_2=4\).<br />
+                    Tagasi: \(x^2=1 \Rightarrow x=\pm1\); \(x^2=4 \Rightarrow x=\pm2\).<br />
+                    Kui mõni \(t\) tuleb negatiivne, siis sellest lahendeid ei tule.</div>
+            </div>
+
+            <h3 id="null-f">F. Kõrgema astme võrrand — arvamine ja Horneri skeem</h3>
+            <div class="reegel">Täisarvuline lahend on alati <b>vabaliikme jagaja</b>. Proovi järjest \(\pm1,\ \pm2,\ldots\). Kui \(P(r)=0\), jaga polünoom teguriga \((x-r)\).</div>
+            <div class="naidis">
+                <div class="naidis-pea">\(x^3-6x^2+11x-6=0\) <a class="proovi" asp-action="Index" asp-route-valem="x^3 - 6*x^2 + 11*x - 6" asp-route-leia="null">Proovi →</a></div>
+                <div class="naidis-sisu">
+                    Arvu 6 jagajad: \(\pm1,\ \pm2,\ \pm3,\ \pm6\). &nbsp; \(P(1)=1-6+11-6=0\) ✓<br />
+                    Horneri skeem (kordajad \(1,\ -6,\ 11,\ -6\), \(r=1\)):
+                    <table class="margitabel">
+                        <tr><th></th><td>1</td><td>−6</td><td>11</td><td>−6</td></tr>
+                        <tr><th>r = 1</th><td>1</td><td>1·1 − 6 = <b>−5</b></td><td>−5·1 + 11 = <b>6</b></td><td>6·1 − 6 = <b>0</b></td></tr>
+                    </table>
+                    Jääk on 0 ⇒ \(x^3-6x^2+11x-6=(x-1)(x^2-5x+6)\).<br />
+                    \(x^2-5x+6=0 \Rightarrow x=2,\ x=3\). &nbsp; Lahendid: \(1;\ 2;\ 3\).
+                </div>
+            </div>
+
+            <h3 id="null-g">G. Murdvõrrand</h3>
+            <div class="reegel">\(\dfrac{u}{v}=0 \iff u=0\) <b>ja</b> \(v\neq0\). Pärast lahendamist kontrolli, et nimetaja ei muutuks nulliks!</div>
+            <div class="naidis">
+                <div class="naidis-pea">\(\dfrac{x^2-1}{x+2}=0\) <a class="proovi" asp-action="Index" asp-route-valem="(x^2-1)/(x+2)" asp-route-leia="null">Proovi →</a></div>
+                <div class="naidis-sisu">Lugeja: \(x^2-1=0 \Rightarrow x=\pm1\). Nimetaja \(x+2\) ei ole nendes punktides null ✓. Lahendid: \(\pm1\).</div>
+            </div>
+            <div class="naidis">
+                <div class="naidis-pea">Lõks: \(\dfrac{x^2-4}{x-2}=0\)</div>
+                <div class="naidis-sisu">Lugeja annab \(x=\pm2\), aga \(x=2\) korral on nimetaja null ⇒ see lahend ei sobi. Ainus lahend: \(x=-2\).</div>
+            </div>
+
+            <h3 id="null-h">H. Eksponent</h3>
+            <div class="naidis">
+                <div class="naidis-pea">\(x\cdot e^{x}=0\) <a class="proovi" asp-action="Index" asp-route-valem="x*exp(x)" asp-route-leia="null">Proovi →</a></div>
+                <div class="naidis-sisu">\(e^x&gt;0\) iga \(x\) korral, seega \(e^x\) ei saa olla null. Jääb \(x=0\).<br />
+                    Samamoodi \((x^2-1)e^{x}=0 \Rightarrow x^2-1=0 \Rightarrow x=\pm1\).</div>
+            </div>
+
+            <h3 id="null-i">I. Logaritm</h3>
+            <div class="naidis">
+                <div class="naidis-pea">\(\ln(x-2)=0\) <a class="proovi" asp-action="Index" asp-route-valem="ln(x-2)" asp-route-leia="null">Proovi →</a></div>
+                <div class="naidis-sisu">\(\ln u=0 \iff u=e^0=1\). Seega \(x-2=1 \Rightarrow x=3\). Kontroll: \(3\in X=(2;\ \infty)\) ✓</div>
+            </div>
+
+            <h3 id="null-j">J. Trigonomeetria</h3>
+            <div class="naidis">
+                <div class="naidis-pea">\(\sin x=0\), \(\cos x=0\) <a class="proovi" asp-action="Index" asp-route-valem="sin(x)" asp-route-leia="null">Proovi →</a></div>
+                <div class="naidis-sisu">\(\sin x=0 \Rightarrow x=k\pi\); &nbsp; \(\cos x=0 \Rightarrow x=\dfrac\pi2+k\pi\), &nbsp; \(k\in\mathbb Z\).<br />
+                    <span class="vihje">Kalkulaator otsib lahendeid vahemikust \([-20;\ 20]\) ja näitab neid ligikaudselt.</span></div>
+            </div>
+        </section>
+
+        <!-- ================= MÄRGID ================= -->
+        <section class="kaart teema" id="marg">
+            <h2><span class="valik-ikoon">±</span> Positiivsus- ja negatiivsuspiirkond (intervallmeetod)</h2>
+            <div class="reegel"><b>Reegel.</b> \(X^+\): kus \(f(x)&gt;0\) (graafik x-telje kohal). \(X^-\): kus \(f(x)&lt;0\) (graafik x-telje all).<br />
+                1) Kanna arvteljele nullkohad ja määramispiirkonna „augud“. 2) Need jaotavad telje vahemikeks. 3) Võta igast vahemikust <b>proovipunkt</b> ja arvuta \(f\) märk.</div>
+            <div class="naidis">
+                <div class="naidis-pea">\(f(x)=x^2-4x+3\), nullkohad \(1\) ja \(3\) <a class="proovi" asp-action="Index" asp-route-valem="x^2 - 4*x + 3" asp-route-leia="marg">Proovi →</a></div>
+                <div class="naidis-sisu">
+                    <table class="margitabel">
+                        <tr><th>x</th><td>\((-\infty;\ 1)\)</td><td>1</td><td>\((1;\ 3)\)</td><td>3</td><td>\((3;\ \infty)\)</td></tr>
+                        <tr><th>proovipunkt</th><td>\(f(0)=3\)</td><td></td><td>\(f(2)=-1\)</td><td></td><td>\(f(4)=3\)</td></tr>
+                        <tr><th>märk</th><td class="pluss">+</td><td>0</td><td class="miinus">−</td><td>0</td><td class="pluss">+</td></tr>
+                    </table>
+                    \(X^+=(-\infty;\ 1)\cup(3;\ \infty)\), &nbsp; \(X^-=(1;\ 3)\).
+                </div>
+            </div>
+            <div class="hoiatus">Kahekordse nullkoha juures (nt \((x-2)^2\)) märk <b>ei muutu</b>. Seetõttu arvuta proovipunkt igas vahemikus, ära lihtsalt vahelda märke.</div>
+        </section>
+
+        <!-- ================= TULETIS ================= -->
+        <section class="kaart teema" id="t1">
+            <h2><span class="valik-ikoon">f'</span> Tuletis</h2>
+            <div class="reegel"><b>Mis see on?</b> \(f'(x_0)\) on graafiku puutuja tõus punktis \(x_0\): kui kiiresti ja mis suunas funktsioon seal muutub.</div>
+
+            <h3>Põhitabel</h3>
+            <table class="juhtumid">
+                <thead><tr><th>Funktsioon</th><th>Tuletis</th><th>Funktsioon</th><th>Tuletis</th></tr></thead>
+                <tbody>
+                    <tr><td>\(c\) (arv)</td><td>\(0\)</td><td>\(e^x\)</td><td>\(e^x\)</td></tr>
+                    <tr><td>\(x\)</td><td>\(1\)</td><td>\(a^x\)</td><td>\(a^x\ln a\)</td></tr>
+                    <tr><td>\(x^n\)</td><td>\(n\,x^{n-1}\)</td><td>\(\ln x\)</td><td>\(\dfrac1x\)</td></tr>
+                    <tr><td>\(\sqrt x\)</td><td>\(\dfrac{1}{2\sqrt x}\)</td><td>\(\sin x\)</td><td>\(\cos x\)</td></tr>
+                    <tr><td>\(\dfrac1x\)</td><td>\(-\dfrac{1}{x^2}\)</td><td>\(\cos x\)</td><td>\(-\sin x\)</td></tr>
+                    <tr><td>\(kx+b\)</td><td>\(k\)</td><td>\(\tan x\)</td><td>\(\dfrac{1}{\cos^2x}\)</td></tr>
+                </tbody>
+            </table>
+
+            <h3>Tehete reeglid</h3>
+            <table class="juhtumid">
+                <tbody>
+                    <tr><th>Summa / vahe</th><td>\((u\pm v)'=u'\pm v'\)</td></tr>
+                    <tr><th>Konstant ette</th><td>\((c\cdot u)'=c\cdot u'\)</td></tr>
+                    <tr><th>Korrutis</th><td>\((u\cdot v)'=u'v+uv'\)</td></tr>
+                    <tr><th>Jagatis</th><td>\(\left(\dfrac uv\right)'=\dfrac{u'v-uv'}{v^2}\)</td></tr>
+                    <tr><th>Liitfunktsioon</th><td>\(\big(f(g(x))\big)'=f'(g(x))\cdot g'(x)\) — „välimise tuletis korda sisemise tuletis“</td></tr>
+                </tbody>
+            </table>
+            <div class="hoiatus">Enne tuletamist kirjuta juured ja murrud astmetena: \(\sqrt x=x^{1/2}\), \(\dfrac{1}{x^2}=x^{-2}\), \(\sqrt[3]{x^2}=x^{2/3}\).</div>
+
+            <div class="naidis">
+                <div class="naidis-pea">Polünoom: \(f(x)=x^3-3x^2+5\) <a class="proovi" asp-action="Index" asp-route-valem="x^3 - 3*x^2 + 5" asp-route-leia="t1">Proovi →</a></div>
+                <div class="naidis-sisu">Iga liige eraldi: \((x^3)'=3x^2\), \((3x^2)'=6x\), \((5)'=0\) ⇒ \(f'(x)=3x^2-6x\).</div>
+            </div>
+            <div class="naidis">
+                <div class="naidis-pea">Juur: \(f(x)=2\sqrt x\) <a class="proovi" asp-action="Index" asp-route-valem="2*x^(1/2)" asp-route-leia="t1">Proovi →</a></div>
+                <div class="naidis-sisu">\(2\sqrt x=2x^{1/2}\) ⇒ \(f'(x)=2\cdot\frac12x^{-1/2}=x^{-1/2}=\dfrac{1}{\sqrt x}\).</div>
+            </div>
+            <div class="naidis">
+                <div class="naidis-pea">Korrutis: \(f(x)=x\cdot e^x\) <a class="proovi" asp-action="Index" asp-route-valem="x*exp(x)" asp-route-leia="t1">Proovi →</a></div>
+                <div class="naidis-sisu">\(u=x,\ v=e^x\): \(f'(x)=1\cdot e^x+x\cdot e^x=e^x(1+x)\).</div>
+            </div>
+            <div class="naidis">
+                <div class="naidis-pea">Jagatis: \(f(x)=\dfrac{x}{x^2+1}\) <a class="proovi" asp-action="Index" asp-route-valem="x/(x^2+1)" asp-route-leia="t1">Proovi →</a></div>
+                <div class="naidis-sisu">\(u=x,\ u'=1,\ v=x^2+1,\ v'=2x\):<br />
+                    \(f'(x)=\dfrac{1\cdot(x^2+1)-x\cdot2x}{(x^2+1)^2}=\dfrac{1-x^2}{(x^2+1)^2}\).</div>
+            </div>
+            <div class="naidis">
+                <div class="naidis-pea">Liitfunktsioon</div>
+                <div class="naidis-sisu">
+                    \(\big((2x-1)^5\big)'=5(2x-1)^4\cdot2=10(2x-1)^4\)<br />
+                    \(\big(\sin 3x\big)'=\cos 3x\cdot3=3\cos3x\)<br />
+                    \(\big(\ln(x^2+1)\big)'=\dfrac{1}{x^2+1}\cdot2x=\dfrac{2x}{x^2+1}\)<br />
+                    \(\big(e^{-x^2}\big)'=e^{-x^2}\cdot(-2x)=-2x\,e^{-x^2}\)
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= KRIITILISED ================= -->
+        <section class="kaart teema" id="kp">
+            <h2><span class="valik-ikoon">•</span> Kriitilised punktid</h2>
+            <div class="reegel"><b>Reegel.</b> Kriitilised punktid on määramispiirkonna punktid, kus \(f'(x)=0\) (või kus tuletist pole). Seal on puutuja horisontaalne — <b>kandidaadid</b> maksimumiks ja miinimumiks.</div>
+            <div class="naidis">
+                <div class="naidis-pea">\(f(x)=x^3-3x\) <a class="proovi" asp-action="Index" asp-route-valem="x^3 - 3*x" asp-route-leia="kp">Proovi →</a></div>
+                <div class="naidis-sisu">\(f'(x)=3x^2-3=0 \Rightarrow x^2=1 \Rightarrow x=\pm1\).</div>
+            </div>
+            <div class="naidis">
+                <div class="naidis-pea">Murd: \(f(x)=\dfrac{x^2+1}{x}\) <a class="proovi" asp-action="Index" asp-route-valem="(x^2+1)/x" asp-route-leia="kp">Proovi →</a></div>
+                <div class="naidis-sisu">\(f'(x)=\dfrac{2x\cdot x-(x^2+1)}{x^2}=\dfrac{x^2-1}{x^2}=0 \Rightarrow x^2-1=0 \Rightarrow x=\pm1\).<br />
+                    \(x=0\) ei ole kriitiline punkt, sest \(0\notin X\).</div>
+            </div>
+        </section>
+
+        <!-- ================= MONOTOONSUS ================= -->
+        <section class="kaart teema" id="mon">
+            <h2><span class="valik-ikoon">↗︎</span> Kasvamine ja kahanemine</h2>
+            <div class="reegel"><b>Reegel.</b> \(f'(x)&gt;0\) ⇒ funktsioon <b>kasvab ↗︎</b>; &nbsp; \(f'(x)&lt;0\) ⇒ funktsioon <b>kahaneb ↘︎</b>.<br />
+                Kriitilised punktid (ja määramispiirkonna augud) jaotavad telje vahemikeks; igas vahemikus vaata \(f'\) märki proovipunktiga.</div>
+            <div class="naidis">
+                <div class="naidis-pea">\(f(x)=x^3-3x\), \(f'(x)=3x^2-3\) <a class="proovi" asp-action="Index" asp-route-valem="x^3 - 3*x" asp-route-leia="mon">Proovi →</a></div>
+                <div class="naidis-sisu">
+                    <table class="margitabel">
+                        <tr><th>x</th><td>\((-\infty;\ -1)\)</td><td>−1</td><td>\((-1;\ 1)\)</td><td>1</td><td>\((1;\ \infty)\)</td></tr>
+                        <tr><th>\(f'\)</th><td class="pluss">+ &nbsp;<small>\(f'(-2)=9\)</small></td><td>0</td><td class="miinus">− &nbsp;<small>\(f'(0)=-3\)</small></td><td>0</td><td class="pluss">+ &nbsp;<small>\(f'(2)=9\)</small></td></tr>
+                        <tr><th>\(f\)</th><td>↗︎</td><td>max</td><td>↘︎</td><td>min</td><td>↗︎</td></tr>
+                    </table>
+                    Kasvab: \((-\infty;\ -1)\cup(1;\ \infty)\); &nbsp; kahaneb: \((-1;\ 1)\).
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= EKSTREEMUMID ================= -->
+        <section class="kaart teema" id="ekst">
+            <h2><span class="valik-ikoon">▲</span> Ekstreemumid</h2>
+            <div class="reegel"><b>Reegel (märgimuutus).</b> Kriitilises punktis \(x_0\):<br />
+                \(f'\) märk \(+\to-\) ⇒ <b>maksimum</b> (tõus läheb languseks) ▲;<br />
+                \(f'\) märk \(-\to+\) ⇒ <b>miinimum</b> (langus läheb tõusuks);<br />
+                märk ei muutu ⇒ ekstreemumit <b>pole</b>.<br />
+                Ekstreemumi väärtus: \(y=f(x_0)\) (asenda <b>algsesse</b> funktsiooni, mitte tuletisse!).</div>
+            <div class="naidis">
+                <div class="naidis-pea">\(f(x)=x^3-3x\) <a class="proovi" asp-action="Index" asp-route-valem="x^3 - 3*x" asp-route-leia="ekst">Proovi →</a></div>
+                <div class="naidis-sisu">\(x=-1\): \(+\to-\) ⇒ max, \(f(-1)=(-1)^3-3(-1)=-1+3=2\) ⇒ \(\max(-1;\ 2)\).<br />
+                    \(x=1\): \(-\to+\) ⇒ min, \(f(1)=1-3=-2\) ⇒ \(\min(1;\ -2)\).</div>
+            </div>
+            <div class="naidis">
+                <div class="naidis-pea">Ekstreemumit pole: \(f(x)=x^3\) <a class="proovi" asp-action="Index" asp-route-valem="x^3" asp-route-leia="ekst">Proovi →</a></div>
+                <div class="naidis-sisu">\(f'(x)=3x^2=0 \Rightarrow x=0\), aga \(3x^2\ge0\) mõlemal pool ⇒ märk ei muutu ⇒ ekstreemumit pole.</div>
+            </div>
+            <div class="reegel"><b>Teine võimalus (teise tuletise test).</b> \(f''(x_0)&lt;0\) ⇒ max; \(f''(x_0)&gt;0\) ⇒ min; \(f''(x_0)=0\) ⇒ test ei ütle midagi, kasuta märgimuutust.<br />
+                Näide: \(f''(x)=6x\): \(f''(-1)=-6&lt;0\) ⇒ max, \(f''(1)=6&gt;0\) ⇒ min ✓</div>
+            <h3>Suurim ja vähim väärtus lõigul [a; b]</h3>
+            <div class="naidis">
+                <div class="naidis-pea">\(f(x)=x^3-3x\) lõigul \([0;\ 2]\)</div>
+                <div class="naidis-sisu">1) Kriitilised punktid lõigul: ainult \(x=1\).<br />
+                    2) Arvuta väärtused kriitilistes punktides <b>ja otspunktides</b>: \(f(0)=0\), \(f(1)=-2\), \(f(2)=8-6=2\).<br />
+                    3) Vali suurim ja vähim: suurim väärtus \(2\) (kui \(x=2\)), vähim \(-2\) (kui \(x=1\)).</div>
+            </div>
+        </section>
+
+        <!-- ================= TEINE TULETIS ================= -->
+        <section class="kaart teema" id="t2">
+            <h2><span class="valik-ikoon">f''</span> Teine tuletis</h2>
+            <div class="reegel"><b>Reegel.</b> Teine tuletis on tuletise tuletis: \(f''(x)=\big(f'(x)\big)'\). Kasuta samu reegleid nagu <a href="#t1">tuletise</a> juures.</div>
+            <div class="naidis">
+                <div class="naidis-pea">\(f(x)=x^4-2x^2\) <a class="proovi" asp-action="Index" asp-route-valem="x^4 - 2*x^2" asp-route-leia="t2">Proovi →</a></div>
+                <div class="naidis-sisu">\(f'(x)=4x^3-4x\) ⇒ \(f''(x)=12x^2-4\).</div>
+            </div>
+        </section>
+
+        <!-- ================= KUMERUS ================= -->
+        <section class="kaart teema" id="kum">
+            <h2><span class="valik-ikoon">∩</span> Kumerus ja nõgusus</h2>
+            <div class="reegel"><b>Reegel.</b> \(f''(x)&lt;0\) ⇒ graafik on <b>kumer ∩</b> („küür“); &nbsp; \(f''(x)&gt;0\) ⇒ graafik on <b>nõgus ∪</b> („kauss“, hoiab vett).<br />
+                Teise tuletise nullkohad jaotavad telje vahemikeks; igas vahemikus vaata \(f''\) märki.</div>
+            <div class="naidis">
+                <div class="naidis-pea">\(f(x)=x^3-3x\), \(f''(x)=6x\) <a class="proovi" asp-action="Index" asp-route-valem="x^3 - 3*x" asp-route-leia="kum">Proovi →</a></div>
+                <div class="naidis-sisu">
+                    <table class="margitabel">
+                        <tr><th>x</th><td>\((-\infty;\ 0)\)</td><td>0</td><td>\((0;\ \infty)\)</td></tr>
+                        <tr><th>\(f''\)</th><td class="miinus">−</td><td>0</td><td class="pluss">+</td></tr>
+                        <tr><th>graafik</th><td>kumer ∩</td><td>käänupunkt</td><td>nõgus ∪</td></tr>
+                    </table>
+                </div>
+            </div>
+            <div class="hoiatus">Mõnes õpikus on nimetused vastupidi („kumer alla/üles“). Kontrolli, mida sinu õpetaja kasutab — see kalkulaator kasutab: <b>kumer = ∩</b>, <b>nõgus = ∪</b>.</div>
+        </section>
+
+        <!-- ================= KÄÄNUPUNKTID ================= -->
+        <section class="kaart teema" id="kaanu">
+            <h2><span class="valik-ikoon">∿</span> Käänupunktid</h2>
+            <div class="reegel"><b>Reegel.</b> Käänupunktis muudab graafik kõverdumise suunda (∩ ↔ ∪): \(f''(x_0)=0\) <b>ja</b> \(f''\) muudab seal märki. Punkt on \((x_0;\ f(x_0))\).</div>
+            <div class="naidis">
+                <div class="naidis-pea">\(f(x)=x^4-2x^2\), \(f''(x)=12x^2-4\) <a class="proovi" asp-action="Index" asp-route-valem="x^4 - 2*x^2" asp-route-leia="kaanu">Proovi →</a></div>
+                <div class="naidis-sisu">\(12x^2-4=0 \Rightarrow x^2=\frac13 \Rightarrow x=\pm\frac{\sqrt3}{3}\approx\pm0{,}577\).<br />
+                    Märk muutub mõlemas punktis ⇒ käänupunktid. \(f\!\left(\pm\frac{\sqrt3}{3}\right)=\frac19-\frac23=-\frac59\).<br />
+                    Vastus: \(K\!\left(\pm\frac{\sqrt3}{3};\ -\frac59\right)\).</div>
+            </div>
+            <div class="naidis">
+                <div class="naidis-pea">Käänupunkti pole: \(f(x)=x^4\) <a class="proovi" asp-action="Index" asp-route-valem="x^4" asp-route-leia="kaanu">Proovi →</a></div>
+                <div class="naidis-sisu">\(f''(x)=12x^2=0 \Rightarrow x=0\), aga \(12x^2\ge0\) mõlemal pool ⇒ märk ei muutu ⇒ käänupunkti pole.</div>
+            </div>
+        </section>
+
+        <!-- ================= PUUTUJA ================= -->
+        <section class="kaart teema" id="puut">
+            <h2><span class="valik-ikoon">⟋</span> Puutuja ja normaal</h2>
+            <div class="reegel"><b>Puutuja võrrand:</b> \(y-y_0=f'(x_0)\,(x-x_0)\)<br />
+                <b>Normaali võrrand:</b> \(y-y_0=-\dfrac{1}{f'(x_0)}\,(x-x_0)\) &nbsp; (normaal on puutujaga risti: \(k_n=-\frac1k\))</div>
+            <p><b>Sammud:</b> 1) \(y_0=f(x_0)\) &nbsp; 2) leia \(f'(x)\) &nbsp; 3) \(k=f'(x_0)\) &nbsp; 4) asenda valemisse ja avalda \(y\).</p>
+            <div class="naidis">
+                <div class="naidis-pea">\(f(x)=x^2-4x+3\), \(x_0=3\) <a class="proovi" asp-action="Index" asp-route-valem="x^2 - 4*x + 3" asp-route-leia="puut">Proovi →</a></div>
+                <div class="naidis-sisu">
+                    1) \(y_0=9-12+3=0\) &nbsp; 2) \(f'(x)=2x-4\) &nbsp; 3) \(k=f'(3)=2\)<br />
+                    4) Puutuja: \(y-0=2(x-3) \Rightarrow y=2x-6\).<br />
+                    Normaal: \(k_n=-\frac12\): \(y=-\frac12(x-3) \Rightarrow y=-0{,}5x+1{,}5\).
+                </div>
+            </div>
+            <div class="hoiatus">Erijuhud: kui \(k=0\), on puutuja horisontaalne \(y=y_0\) ja normaal vertikaalne \(x=x_0\).</div>
+            <h3>Puutuja, mis on paralleelne antud sirgega</h3>
+            <div class="naidis">
+                <div class="naidis-pea">\(f(x)=x^2\), puutuja paralleelne sirgega \(y=4x-1\)</div>
+                <div class="naidis-sisu">Paralleelsetel sirgetel on sama tõus: \(f'(x_0)=4 \Rightarrow 2x_0=4 \Rightarrow x_0=2\), \(y_0=4\).<br />
+                    Puutuja: \(y-4=4(x-2) \Rightarrow y=4x-4\).</div>
+            </div>
+        </section>
+
+        <!-- ================= VÄÄRTUS ================= -->
+        <section class="kaart teema" id="vaart">
+            <h2><span class="valik-ikoon">=</span> Funktsiooni väärtus punktis</h2>
+            <div class="reegel"><b>Reegel.</b> \(f(a)\) leidmiseks asenda valemis <b>iga</b> \(x\) arvuga \(a\). Negatiivne arv pane alati sulgudesse!</div>
+            <div class="naidis">
+                <div class="naidis-pea">\(f(x)=x^2-4x+3\), leia \(f(-2)\) <a class="proovi" asp-action="Index" asp-route-valem="x^2 - 4*x + 3" asp-route-leia="vaart">Proovi →</a></div>
+                <div class="naidis-sisu">\(f(-2)=(-2)^2-4\cdot(-2)+3=4+8+3=15\).<br />
+                    \((-2)^2=4\), aga \(-2^2=-4\) — sulud on olulised!</div>
+            </div>
+        </section>
+
+        <!-- ================= ASÜMPTOODID ================= -->
+        <section class="kaart teema" id="asym">
+            <h2><span class="valik-ikoon">⇥</span> Asümptoodid (lisateema)</h2>
+            <div class="reegel"><b>Vertikaalne asümptoot</b> \(x=a\): nimetaja nullkoht, mis ei ole ka lugeja nullkoht (graafik läheb seal lõpmatusse).<br />
+                <b>Horisontaalne asümptoot</b> \(y=b\): väärtus, millele \(f(x)\) läheneb, kui \(x\to\pm\infty\). Murru korral: kui lugeja ja nimetaja aste on võrdsed, on \(b\) juhtkordajate jagatis; kui nimetaja aste on suurem, on \(y=0\).</div>
+            <div class="naidis">
+                <div class="naidis-pea">\(f(x)=\dfrac{2x+1}{x-1}\) <a class="proovi" asp-action="Index" asp-route-valem="(2*x+1)/(x-1)">Proovi →</a></div>
+                <div class="naidis-sisu">Vertikaalne: \(x-1=0 \Rightarrow x=1\). Horisontaalne: astmed võrdsed ⇒ \(y=\frac21=2\).<br />
+                    <span class="vihje">Kalkulaator asümptoote eraldi ei arvuta, aga graafikul on need hästi näha.</span></div>
+            </div>
+        </section>
+
+        <!-- ================= VEAD ================= -->
+        <section class="kaart teema" id="vead">
+            <h2><span class="valik-ikoon">!</span> Sagedased vead</h2>
+            <table class="juhtumid">
+                <thead><tr><th>Viga</th><th>Õigesti</th></tr></thead>
+                <tbody>
+                    <tr><td>Jagatakse võrrand \(x\)-ga: \(x^2=5x \Rightarrow x=5\)</td><td>Too sulgude ette: \(x(x-5)=0 \Rightarrow x=0\) või \(x=5\)</td></tr>
+                    <tr><td>\(-2^2=4\)</td><td>\(-2^2=-4\), &nbsp; \((-2)^2=4\)</td></tr>
+                    <tr><td>Ekstreemumi \(y\) arvutatakse tuletisest</td><td>\(y\) arvutatakse <b>algsest</b> funktsioonist \(f(x_0)\)</td></tr>
+                    <tr><td>\(f'(x_0)=0\) ⇒ kindlasti ekstreemum</td><td>Kontrolli märgimuutust (nt \(x^3\) korral ekstreemumit pole)</td></tr>
+                    <tr><td>Unustatakse määramispiirkond</td><td>Lahendid, mis ei kuulu \(X\)-i, tuleb välja jätta</td></tr>
+                    <tr><td>Võrratuse jagamine negatiivse arvuga ilma märki pööramata</td><td>\(-2x\ge-6 \Rightarrow x\le3\) (märk pöördub)</td></tr>
+                    <tr><td>\((u\cdot v)'=u'\cdot v'\)</td><td>\((u\cdot v)'=u'v+uv'\)</td></tr>
+                    <tr><td>Vahemikud kirjutatakse kinniste sulgudega \([\ ]\) asümptoodi või ∞ juures</td><td>\(\infty\) ja määramata punktide juures alati \((\ )\)</td></tr>
+                </tbody>
+            </table>
+        </section>
+
+        <!-- ================= KLAVIATUUR ================= -->
+        <section class="kaart teema" id="klaviatuur">
+            <h2><span class="valik-ikoon">⌨</span> Kuidas valemit sisestada</h2>
+            <table class="juhtumid">
+                <thead><tr><th>Tahan kirjutada</th><th>Ekraaniklaviatuur</th><th>Tavaline klaviatuur</th></tr></thead>
+                <tbody>
+                    <tr><td>\(x^2\), \(x^n\)</td><td><b>x²</b> või <b>x<sup>□</sup></b></td><td><kbd>x</kbd> <kbd>^</kbd> <kbd>2</kbd>, siis <kbd>→</kbd> astmest välja</td></tr>
+                    <tr><td>\(\dfrac{a}{b}\)</td><td>murru nupp</td><td><kbd>/</kbd></td></tr>
+                    <tr><td>\(\sqrt{x}\)</td><td><b>√□</b></td><td>kirjuta <kbd>sqrt</kbd></td></tr>
+                    <tr><td>\(e^x\)</td><td><b>e<sup>□</sup></b></td><td><kbd>e</kbd> <kbd>^</kbd> <kbd>x</kbd></td></tr>
+                    <tr><td>\(\ln x\), \(\sin x\)</td><td><b>ln</b>, <b>sin</b> …</td><td>kirjuta <kbd>ln</kbd>, <kbd>sin</kbd></td></tr>
+                    <tr><td>\(\pi\)</td><td><b>π</b></td><td>kirjuta <kbd>pi</kbd></td></tr>
+                    <tr><td>korrutamine \(2x\)</td><td>pole vaja: <b>2</b> <b>x</b></td><td><kbd>2</kbd> <kbd>x</kbd> või <kbd>*</kbd></td></tr>
+                    <tr><td>välju astmest / murrust</td><td><b>|→</b></td><td><kbd>→</kbd></td></tr>
+                </tbody>
+            </table>
+            <p class="mb-0"><a class="proovi" asp-action="Index">Ava kalkulaator →</a></p>
+        </section>
+    </div>
+</div>
+

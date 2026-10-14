@@ -1,0 +1,204 @@
+@model FunktsiooniUurimine
+@using System.Text.Json
+@using FunktsioonideUurimine.Services
+@{
+    ViewData["Title"] = Model.Valem;
+    var sammud = new List<LahenduseSamm>();
+    if (!string.IsNullOrEmpty(Model.Lahendus))
+    {
+        sammud = JsonSerializer.Deserialize<List<LahenduseSamm>>(Model.Lahendus) ?? new List<LahenduseSamm>();
+    }
+}
+
+<style>
+    .analuus th { width: 42%; font-weight: 600; color: #45506a; }
+    .graafikukast { background: #fff; padding: 1rem; border: 1px solid #dde3ee; border-radius: .6rem; }
+    .louendiKast { position: relative; height: 420px; }
+    .lahendus { background: #fff; border: 1px solid #dde3ee; border-radius: .6rem; padding: 1.25rem 1.25rem 1.25rem 2.75rem; }
+    .lahendus > li { margin-bottom: 1.1rem; padding-left: .25rem; }
+    .lahendus > li::marker { font-weight: 700; color: #1d3557; }
+    .samm-pealkiri { font-weight: 700; color: #1d3557; margin-bottom: .25rem; }
+    .rida { margin: .2rem 0; line-height: 1.9; }
+    .lahendus > li:last-child { background: #eef6ee; border-radius: .5rem; padding: .75rem 1rem; margin-left: -1rem; }
+
+    .puutujakast { background: #fff; border: 1px solid #dde3ee; border-radius: .6rem; padding: .9rem 1rem; }
+    .silt { display: inline-block; min-width: 5.2rem; font-size: .8rem; font-weight: 700; padding: .1rem .45rem;
+            border-radius: .35rem; color: #fff; margin-right: .4rem; text-align: center; }
+    .silt.puutuja { background: #2a9d8f; }
+    .silt.normaal { background: #f4a261; }
+    .vorrand { font-size: 1.05rem; font-weight: 600; }
+    .puutuja-read { background: #fff; border: 1px solid #dde3ee; border-radius: .6rem; padding: 1rem 1.25rem; }
+</style>
+
+<h1 class="h3 mb-4">f(x) = <span class="mat">@Model.Valem</span></h1>
+
+<div class="row g-4">
+    <div class="col-lg-5">
+        <table class="table table-sm analuus">
+            <tr><th>@T["Область определения", "Määramispiirkond"]</th><td>@Model.Maaramispiirkond</td></tr>
+            <tr><th>f'(x)</th><td class="mat">@Model.Tuletis</td></tr>
+            <tr><th>f''(x)</th><td class="mat">@Model.TeineTuletis</td></tr>
+            <tr><th>@T["Нули функции", "Nullkohad"]</th><td>@Model.Nullkohad</td></tr>
+            <tr><th>@T["Критические точки", "Kriitilised punktid"]</th><td>@Model.KriitilisedPunktid</td></tr>
+            <tr><th>@T["Возрастает", "Kasvab"]</th><td>@Model.Kasvamisvahemikud</td></tr>
+            <tr><th>@T["Убывает", "Kahaneb"]</th><td>@Model.Kahanemisvahemikud</td></tr>
+            <tr><th>@T["Экстремумы", "Ekstreemumid"]</th><td>@Model.Ekstreemumid</td></tr>
+            <tr><th>@T["Выпуклая (∩)", "Kumer (∩)"]</th><td>@Model.Kumerusvahemikud</td></tr>
+            <tr><th>@T["Вогнутая (∪)", "Nõgus (∪)"]</th><td>@Model.Nogususvahemikud</td></tr>
+            <tr><th>@T["Точки перегиба", "Käänupunktid"]</th><td>@Model.Kaanupunktid</td></tr>
+        </table>
+
+        <!-- Puutuja ja normaal -->
+        <div class="puutujakast mb-3">
+            <div class="fw-semibold mb-2">@T["Касательная и нормаль", "Puutuja ja normaal"]</div>
+            <div class="input-group input-group-sm">
+                <span class="input-group-text">x₀ =</span>
+                <input id="puutePunkt" type="number" step="any" value="1" class="form-control" />
+                <button id="puutujaNupp" type="button" class="btn btn-success">@T["Найти", "Leia"]</button>
+            </div>
+            <div id="puutujaViga" class="text-danger small mt-2"></div>
+            <div id="puutujaVastus" class="mt-2" hidden>
+                <div class="mb-1"><span class="silt puutuja">@T["Касательная", "Puutuja"]</span><span id="puutujaVorrand" class="vorrand"></span></div>
+                <div><span class="silt normaal">@T["Нормаль", "Normaal"]</span><span id="normaalVorrand" class="vorrand"></span></div>
+            </div>
+        </div>
+
+        <a class="btn btn-outline-secondary btn-sm" asp-action="Edit" asp-route-id="@Model.Id">@T["Изменить", "Muuda"]</a>
+        <a class="btn btn-outline-danger btn-sm" asp-action="Delete" asp-route-id="@Model.Id">@T["Удалить", "Kustuta"]</a>
+        <a class="btn btn-link btn-sm" asp-action="Index">@T["Все функции", "Kõik funktsioonid"]</a>
+    </div>
+
+    <div class="col-lg-7">
+        <div class="graafikukast">
+            <div class="row g-2 mb-3 align-items-end">
+                <div class="col">
+                    <label class="form-label small" for="xMin">x min</label>
+                    <input id="xMin" type="number" class="form-control form-control-sm" value="-5" step="any" />
+                </div>
+                <div class="col">
+                    <label class="form-label small" for="xMax">x max</label>
+                    <input id="xMax" type="number" class="form-control form-control-sm" value="5" step="any" />
+                </div>
+                <div class="col">
+                    <label class="form-label small" for="samm">@T["Шаг", "Samm"]</label>
+                    <input id="samm" type="number" class="form-control form-control-sm" value="0.1" step="any" min="0.001" />
+                </div>
+                <div class="col-auto">
+                    <button id="joonistaNupp" type="button" class="btn btn-primary btn-sm">@T["Построить", "Joonista"]</button>
+                </div>
+            </div>
+            <div id="graafikuViga" class="text-danger small mb-2"></div>
+            <div class="louendiKast">
+                <canvas id="funktsiooniGraafik"
+                        data-id="@Model.Id"
+                        data-valem="@Model.Valem"
+                        data-tuletis="@Model.Tuletis"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Lahenduskäik KOOS pealkirjaga – alguses peidus, avaneb klahviga Ё -->
+<div id="lahendusPlokk" hidden>
+    <h2 class="h4 mt-5 mb-3">@T["Решение", "Lahenduskäik"]</h2>
+    <ol class="lahendus">
+        @foreach (var samm in sammud)
+        {
+            <li>
+                <div class="samm-pealkiri">@samm.Pealkiri</div>
+                @foreach (var rida in samm.Read)
+                {
+                    <div class="rida">@rida</div>
+                }
+            </li>
+        }
+    </ol>
+
+    <!-- Puutuja ja normaali lahenduskäik (täidetakse pärast "Leia" vajutamist) -->
+    <div id="puutujaLahendus" hidden>
+        <h2 class="h4 mt-4 mb-3">@T["Касательная и нормаль", "Puutuja ja normaal"]</h2>
+        <div id="puutujaSammud" class="puutuja-read"></div>
+    </div>
+</div>
+
+@section Scripts {
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css" />
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjs@13.2.0/lib/browser/math.js"></script>
+    <script src="~/js/valem.js" asp-append-version="true"></script>
+    <script src="~/js/graafik.js" asp-append-version="true"></script>
+    <script>
+        (function () {
+            // ---------- Valemid ilusaks: sama vormistus mis kalkulaatoris (valem.js) ----------
+            const joonista = (valem) => Valem.ilus(valem);
+            const renderRida = (tekst) => Valem.renderRida(tekst);
+
+            // tavaline tekst: x1 -> x₁, - -> −
+            document.querySelectorAll('.analuus td:not(.mat)').forEach(el => {
+                el.textContent = Valem.ilusTekst(el.textContent.trim());
+            });
+            document.querySelectorAll('.mat').forEach(el => {
+                el.innerHTML = joonista(el.textContent.trim());
+            });
+            document.querySelectorAll('.rida').forEach(el => {
+                el.innerHTML = renderRida(el.textContent);
+            });
+
+            // ---------- Puutuja ja normaal ----------
+            const funktsiooniId = document.getElementById('funktsiooniGraafik').dataset.id;
+            const x0Vali = document.getElementById('puutePunkt');
+            const pViga = document.getElementById('puutujaViga');
+            const pVastus = document.getElementById('puutujaVastus');
+            const pLahendus = document.getElementById('puutujaLahendus');
+            const pSammud = document.getElementById('puutujaSammud');
+
+            async function leiaPuutuja() {
+                pViga.textContent = '';
+                const x0 = parseFloat(x0Vali.value);
+                if (isNaN(x0)) { pViga.textContent = t('Введите точку x₀.', 'Sisesta punkt x₀.'); return; }
+
+                const vastus = await fetch(`/Funktsioonid/Puutuja/${funktsiooniId}?x0=${x0}`);
+                if (!vastus.ok) { pViga.textContent = t('При вычислении произошла ошибка.', 'Arvutamisel tekkis viga.'); return; }
+                const t = await vastus.json();
+
+                if (!t.korras) {
+                    pViga.textContent = t.viga;
+                    pVastus.hidden = true;
+                    pLahendus.hidden = true;
+                    return;
+                }
+
+                document.getElementById('puutujaVorrand').textContent = t.puutuja;
+                document.getElementById('normaalVorrand').textContent = t.normaal;
+                pVastus.hidden = false;
+
+                pSammud.innerHTML = t.read.map(r => '<div class="rida">' + renderRida(r) + '</div>').join('');
+                pLahendus.hidden = false;
+
+                if (window.naitaSirgeid) window.naitaSirgeid(t);
+            }
+
+            document.getElementById('puutujaNupp').addEventListener('click', leiaPuutuja);
+            x0Vali.addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); leiaPuutuja(); } });
+
+            // ---------- Lahenduskäik: peida / näita klahviga Ё ----------
+            const plokk = document.getElementById('lahendusPlokk');
+
+            function lulitaLahendus() {
+                plokk.hidden = !plokk.hidden;
+                if (!plokk.hidden) plokk.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+
+            window.addEventListener('keydown', e => {
+                const t = e.target;
+                if (t && (t.tagName === 'INPUT' || t.tagName === 'TEXTAREA')) return;
+
+                const onYo = e.code === 'Backquote' || ['ё', 'Ё', '`', '~', 'ˇ'].includes(e.key);
+                if (onYo && !e.ctrlKey && !e.altKey && !e.metaKey) {
+                    e.preventDefault();
+                    lulitaLahendus();
+                }
+            });
+        })();
+    </script>
+}

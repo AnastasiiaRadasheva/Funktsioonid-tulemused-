@@ -1,0 +1,42 @@
+@{
+    ViewData["Title"] = T["Справочник", "Juhend"];
+}
+
+<partial name="@(T.OnVene ? "_JuhendRu" : "_JuhendEt")" />
+
+@section Scripts {
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css" />
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
+    <script>
+        (function () {
+            renderMathInElement(document.getElementById('teemad'), {
+                delimiters: [{ left: '\\(', right: '\\)', display: false }, { left: '\\[', right: '\\]', display: true }],
+                throwOnError: false
+            });
+
+            // Otsing: peidab teemad, kus otsitavat sõna pole
+            const otsi = document.getElementById('otsi');
+            const teemad = [...document.querySelectorAll('.teema')];
+            const lingid = [...document.querySelectorAll('#sisukord a')];
+            otsi.addEventListener('input', () => {
+                const s = otsi.value.trim().toLowerCase();
+                teemad.forEach(t => {
+                    const sobib = !s || t.textContent.toLowerCase().includes(s);
+                    t.classList.toggle('peidus', !sobib);
+                    const link = lingid.find(a => a.getAttribute('href') === '#' + t.id);
+                    if (link) link.classList.toggle('peidus', !sobib);
+                });
+            });
+
+            // Sisukorras märgime teema, mida parajasti loed
+            const vaatleja = new IntersectionObserver(kirjed => {
+                kirjed.forEach(k => {
+                    if (!k.isIntersecting) return;
+                    lingid.forEach(a => a.classList.toggle('aktiivne', a.getAttribute('href') === '#' + k.target.id));
+                });
+            }, { rootMargin: '-15% 0px -75% 0px' });
+            teemad.forEach(t => vaatleja.observe(t));
+        })();
+    </script>
+}

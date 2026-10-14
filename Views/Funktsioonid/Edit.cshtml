@@ -1,0 +1,13 @@
+@model FunktsiooniVorm
+@{
+    ViewData["Title"] = T["Изменить функцию", "Muuda funktsiooni"];
+}
+
+<h1 class="h3 mb-3">@T["Изменить функцию", "Muuda funktsiooni"]</h1>
+
+<form asp-action="Edit" asp-route-id="@Model.Id" method="post" class="vorm">
+    <partial name="_Vorm" model="Model" />
+    <button type="submit" class="btn btn-primary">@T["Пересчитать и сохранить", "Analüüsi uuesti ja salvesta"]</button>
+    <a asp-action="Details" asp-route-id="@Model.Id" class="btn btn-link">@T["Назад", "Tagasi"]</a>
+</form>
+

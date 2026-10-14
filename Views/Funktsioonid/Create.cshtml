@@ -1,0 +1,13 @@
+@model FunktsiooniVorm
+@{
+    ViewData["Title"] = T["Новая функция", "Uus funktsioon"];
+}
+
+<h1 class="h3 mb-3">@T["Новая функция", "Uus funktsioon"]</h1>
+
+<form asp-action="Create" method="post" class="vorm">
+    <partial name="_Vorm" model="Model" />
+    <button type="submit" class="btn btn-primary">@T["Исследовать и сохранить", "Analüüsi ja salvesta"]</button>
+    <a asp-action="Index" class="btn btn-link">@T["Назад", "Tagasi"]</a>
+</form>
+

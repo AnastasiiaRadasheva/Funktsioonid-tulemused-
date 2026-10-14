@@ -1,0 +1,510 @@
+<div class="juhend">
+    <aside class="kaart sisukord">
+        <input id="otsi" type="search" placeholder="Поиск (например, дискриминант)" aria-label="Поиск по справочнику" />
+        <nav id="sisukord">
+            <a href="#plaan">План исследования</a>
+            <a href="#mp">Область определения</a>
+            <a href="#y">Пересечение с осью Oy</a>
+            <a href="#null">Нули функции (уравнения)</a>
+            <a href="#marg">Знакопостоянство</a>
+            <a href="#t1">Производная</a>
+            <a href="#kp">Критические точки</a>
+            <a href="#mon">Возрастание и убывание</a>
+            <a href="#ekst">Экстремумы</a>
+            <a href="#t2">Вторая производная</a>
+            <a href="#kum">Выпуклость и вогнутость</a>
+            <a href="#kaanu">Точки перегиба</a>
+            <a href="#puut">Касательная и нормаль</a>
+            <a href="#vaart">Значение в точке</a>
+            <a href="#asym">Асимптоты</a>
+            <a href="#vead">Частые ошибки</a>
+            <a href="#klaviatuur">Как вводить формулы</a>
+        </nav>
+    </aside>
+
+    <div id="teemad">
+        <div class="kaart">
+            <h1 class="h3 mb-1">Справочник: как исследовать функцию</h1>
+            <p class="mb-0 vihje" style="font-size:1rem">В каждой теме есть правило, все типичные случаи и разобранный пример. Кнопка <span class="proovi">Попробовать →</span> открывает пример в калькуляторе — там то же решение по шагам и на графике.</p>
+        </div>
+
+        <!-- ================= PLAAN ================= -->
+        <section class="kaart teema" id="plaan">
+            <h2><span class="valik-ikoon">▦</span> План исследования функции</h2>
+            <p>Полное исследование всегда идёт в одном порядке. Каждый следующий шаг опирается на предыдущие.</p>
+            <table class="juhtumid">
+                <thead><tr><th>№</th><th>Что находим</th><th>Как</th></tr></thead>
+                <tbody>
+                    <tr><td>1</td><td><a href="#mp">Область определения</a> \(X\)</td><td>Находим, какие x брать нельзя</td></tr>
+                    <tr><td>2</td><td><a href="#y">Пересечение с осью Oy</a></td><td>Считаем \(f(0)\)</td></tr>
+                    <tr><td>3</td><td><a href="#null">Нули функции</a></td><td>Решаем \(f(x)=0\)</td></tr>
+                    <tr><td>4</td><td><a href="#marg">Промежутки знакопостоянства</a></td><td>Смотрим знак \(f(x)\) на промежутках</td></tr>
+                    <tr><td>5</td><td><a href="#t1">Производная</a> \(f'(x)\)</td><td>Правила дифференцирования</td></tr>
+                    <tr><td>6</td><td><a href="#kp">Критические точки</a></td><td>Решаем \(f'(x)=0\)</td></tr>
+                    <tr><td>7</td><td><a href="#mon">Возрастание и убывание</a></td><td>Смотрим знак \(f'(x)\)</td></tr>
+                    <tr><td>8</td><td><a href="#ekst">Экстремумы</a></td><td>Где \(f'(x)\) меняет знак</td></tr>
+                    <tr><td>9</td><td><a href="#t2">Вторая производная</a> \(f''(x)\)</td><td>Дифференцируем \(f'(x)\)</td></tr>
+                    <tr><td>10</td><td><a href="#kum">Выпуклость и вогнутость</a>, <a href="#kaanu">точки перегиба</a></td><td>Смотрим знак \(f''(x)\)</td></tr>
+                    <tr><td>11</td><td>График</td><td>Отмечаем все найденные точки на координатной плоскости</td></tr>
+                </tbody>
+            </table>
+            <div class="naidis">
+                <div class="naidis-pea">Полный пример: \(f(x)=x^3-3x\) <a class="proovi" asp-action="Index" asp-route-valem="x^3 - 3*x">Попробовать →</a></div>
+                <div class="naidis-sisu">
+                    <ol>
+                        <li>\(X=(-\infty;\ \infty)\) — многочлен, ограничений нет.</li>
+                        <li>\(f(0)=0\) ⇒ пересечение с осью Oy: \((0;\ 0)\).</li>
+                        <li>\(x^3-3x=0 \Rightarrow x(x^2-3)=0 \Rightarrow x=0,\ x=\pm\sqrt3\).</li>
+                        <li>\(f&gt;0\) на \((-\sqrt3;\ 0)\cup(\sqrt3;\ \infty)\), \(f&lt;0\) на \((-\infty;\ -\sqrt3)\cup(0;\ \sqrt3)\).</li>
+                        <li>\(f'(x)=3x^2-3\).</li>
+                        <li>\(3x^2-3=0 \Rightarrow x=\pm1\).</li>
+                        <li>Возрастает на \((-\infty;\ -1)\cup(1;\ \infty)\), убывает на \((-1;\ 1)\).</li>
+                        <li>\(\max f(-1)=2\), \(\min f(1)=-2\).</li>
+                        <li>\(f''(x)=6x\).</li>
+                        <li>Выпуклая ∩ на \((-\infty;\ 0)\), вогнутая ∪ на \((0;\ \infty)\), точка перегиба \((0;\ 0)\).</li>
+                    </ol>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= MÄÄRAMISPIIRKOND ================= -->
+        <section class="kaart teema" id="mp">
+            <h2><span class="valik-ikoon">D</span> Область определения</h2>
+            <div class="reegel"><b>Правило.</b> Область определения \(X\) — все значения \(x\), при которых \(f(x)\) можно вычислить. Ищите в формуле «опасные места»: дробь, корень, логарифм.</div>
+            <table class="juhtumid">
+                <thead><tr><th>В формуле есть</th><th>Условие</th><th>Пример</th></tr></thead>
+                <tbody>
+                    <tr><td>только \(+,\ -,\ \cdot\) и степени (многочлен)</td><td>ограничений нет</td><td>\(x^3-3x \Rightarrow X=(-\infty;\ \infty)\)</td></tr>
+                    <tr><td>дробь, \(x\) в знаменателе \(\dfrac{u}{v}\)</td><td>\(v\neq 0\)</td><td>\(\dfrac{1}{x-2} \Rightarrow x\neq2 \Rightarrow X=\mathbb R\setminus\{2\}\)</td></tr>
+                    <tr><td>квадратный корень (чётной степени) \(\sqrt{u}\)</td><td>\(u\ge 0\)</td><td>\(\sqrt{x-1} \Rightarrow x\ge1 \Rightarrow X=[1;\ \infty)\)</td></tr>
+                    <tr><td>корень в знаменателе \(\dfrac{1}{\sqrt{u}}\)</td><td>\(u&gt;0\)</td><td>\(\dfrac{1}{\sqrt{4-x}} \Rightarrow x&lt;4 \Rightarrow X=(-\infty;\ 4)\)</td></tr>
+                    <tr><td>логарифм \(\ln u\)</td><td>\(u&gt;0\)</td><td>\(\ln(x+3) \Rightarrow x&gt;-3 \Rightarrow X=(-3;\ \infty)\)</td></tr>
+                    <tr><td>\(\ln u\) в знаменателе \(\dfrac{1}{\ln u}\)</td><td>\(u&gt;0\) и \(u\neq1\)</td><td>\(\dfrac{1}{\ln x} \Rightarrow X=(0;\ 1)\cup(1;\ \infty)\)</td></tr>
+                    <tr><td>корень нечётной степени \(\sqrt[3]{u}\)</td><td>ограничений нет*</td><td>\(\sqrt[3]{x}\Rightarrow X=(-\infty;\ \infty)\)</td></tr>
+                    <tr><td>\(\sin x,\ \cos x,\ e^x\)</td><td>ограничений нет</td><td>\(e^{x}\sin x \Rightarrow X=(-\infty;\ \infty)\)</td></tr>
+                    <tr><td>\(\tan x\)</td><td>\(\cos x\neq0\)</td><td>\(x\neq\frac{\pi}{2}+\pi k\)</td></tr>
+                </tbody>
+            </table>
+            <p class="vihje">* Калькулятор считает корень нечётной степени только для неотрицательных чисел, поэтому для \(\sqrt[3]{x}\) он покажет \([0;\ \infty)\).</p>
+            <p>Если опасных мест несколько, <b>все условия должны выполняться одновременно</b> (берём пересечение).</p>
+
+            <div class="naidis">
+                <div class="naidis-pea">Пример 1 — дробь: \(f(x)=\dfrac{x+1}{x^2-4}\) <a class="proovi" asp-action="Index" asp-route-valem="(x+1)/(x^2-4)" asp-route-leia="mp">Попробовать →</a></div>
+                <div class="naidis-sisu">Знаменатель не равен нулю: \(x^2-4\neq0 \Rightarrow x^2\neq4 \Rightarrow x\neq\pm2\).<br />Ответ: \(X=\mathbb R\setminus\{-2;\ 2\}\).</div>
+            </div>
+            <div class="naidis">
+                <div class="naidis-pea">Пример 2 — корень: \(f(x)=\sqrt{6-2x}\) <a class="proovi" asp-action="Index" asp-route-valem="(6-2*x)^(1/2)" asp-route-leia="mp">Попробовать →</a></div>
+                <div class="naidis-sisu">Под корнем неотрицательное число: \(6-2x\ge0 \Rightarrow -2x\ge-6 \Rightarrow x\le3\).<br />
+                    При делении на отрицательное число знак неравенства меняется!<br />Ответ: \(X=(-\infty;\ 3]\).</div>
+            </div>
+            <div class="naidis">
+                <div class="naidis-pea">Пример 3 — логарифм и квадратное неравенство: \(f(x)=\ln(x^2-9)\) <a class="proovi" asp-action="Index" asp-route-valem="ln(x^2-9)" asp-route-leia="mp">Попробовать →</a></div>
+                <div class="naidis-sisu">Условие: \(x^2-9&gt;0\). Сначала решаем \(x^2-9=0 \Rightarrow x=\pm3\).<br />
+                    Парабола \(y=x^2-9\) ветвями вверх, значит, она положительна <b>вне</b> корней.<br />Ответ: \(X=(-\infty;\ -3)\cup(3;\ \infty)\).</div>
+            </div>
+        </section>
+
+        <!-- ================= Y-TELG ================= -->
+        <section class="kaart teema" id="y">
+            <h2><span class="valik-ikoon">↕</span> Пересечение с осью Oy</h2>
+            <div class="reegel"><b>Правило.</b> На оси Oy \(x=0\). Посчитайте \(f(0)\) — точка пересечения \((0;\ f(0))\). Если \(0\notin X\), график ось Oy не пересекает.</div>
+            <div class="naidis">
+                <div class="naidis-pea">Пример: \(f(x)=x^2-4x+3\) <a class="proovi" asp-action="Index" asp-route-valem="x^2 - 4*x + 3" asp-route-leia="y">Попробовать →</a></div>
+                <div class="naidis-sisu">\(f(0)=0^2-4\cdot0+3=3\) ⇒ точка \((0;\ 3)\).<br />
+                    У многочлена это всегда свободный член (число без x).</div>
+            </div>
+            <div class="naidis">
+                <div class="naidis-pea">Пример: \(f(x)=\dfrac{1}{x}\) <a class="proovi" asp-action="Index" asp-route-valem="1/x" asp-route-leia="y">Попробовать →</a></div>
+                <div class="naidis-sisu">При \(x=0\) пришлось бы делить на ноль ⇒ \(0\notin X\) ⇒ пересечения с осью Oy нет.</div>
+            </div>
+        </section>
+
+        <!-- ================= NULLKOHAD ================= -->
+        <section class="kaart teema" id="null">
+            <h2><span class="valik-ikoon">0</span> Нули функции — как решать уравнения</h2>
+            <div class="reegel"><b>Правило.</b> Нули функции — значения \(x\), при которых \(f(x)=0\). В них график пересекает ось Ox. Способ решения выбираем по виду уравнения.</div>
+
+            <table class="juhtumid">
+                <thead><tr><th>Вид уравнения</th><th>Способ</th></tr></thead>
+                <tbody>
+                    <tr><td>\(ax+b=0\)</td><td><a href="#null-a">Линейное уравнение</a>: \(x=-\frac{b}{a}\)</td></tr>
+                    <tr><td>\(ax^2+bx+c=0\)</td><td><a href="#null-b">Дискриминант</a></td></tr>
+                    <tr><td>\(ax^2+bx=0\) или \(ax^2+c=0\)</td><td><a href="#null-c">Неполное квадратное уравнение</a></td></tr>
+                    <tr><td>в каждом слагаемом есть \(x\)</td><td><a href="#null-d">Вынести \(x\) за скобки</a></td></tr>
+                    <tr><td>\(ax^4+bx^2+c=0\)</td><td><a href="#null-e">Биквадратное уравнение</a>: \(t=x^2\)</td></tr>
+                    <tr><td>3-я степень и выше</td><td><a href="#null-f">Подбор корня + схема Горнера</a></td></tr>
+                    <tr><td>\(\dfrac{u}{v}=0\)</td><td><a href="#null-g">Дробное уравнение</a>: \(u=0\), \(v\neq0\)</td></tr>
+                    <tr><td>\(u\cdot e^{x}=0\)</td><td><a href="#null-h">\(e^x&gt;0\)</a>, значит \(u=0\)</td></tr>
+                    <tr><td>\(\ln u=0\)</td><td><a href="#null-i">\(u=1\)</a></td></tr>
+                    <tr><td>\(\sin x=0\), \(\cos x=0\)</td><td><a href="#null-j">Тригонометрия</a></td></tr>
+                </tbody>
+            </table>
+
+            <h3 id="null-a">A. Линейное уравнение</h3>
+            <div class="naidis">
+                <div class="naidis-pea">\(2x-6=0\) <a class="proovi" asp-action="Index" asp-route-valem="2*x - 6" asp-route-leia="null">Попробовать →</a></div>
+                <div class="naidis-sisu">Переносим число в другую часть: \(2x=6\), делим на 2: \(x=3\).</div>
+            </div>
+
+            <h3 id="null-b">B. Квадратное уравнение — дискриминант</h3>
+            <div class="reegel">
+                \(ax^2+bx+c=0\): &nbsp; \(D=b^2-4ac\), &nbsp; \(x_{1,2}=\dfrac{-b\pm\sqrt D}{2a}\)<br />
+                \(D&gt;0\) — два корня; &nbsp; \(D=0\) — один корень; &nbsp; \(D&lt;0\) — действительных корней нет.
+            </div>
+            <div class="naidis">
+                <div class="naidis-pea">\(D&gt;0\): \(x^2-4x+3=0\) <a class="proovi" asp-action="Index" asp-route-valem="x^2 - 4*x + 3" asp-route-leia="null">Попробовать →</a></div>
+                <div class="naidis-sisu">\(a=1,\ b=-4,\ c=3\).<br />\(D=(-4)^2-4\cdot1\cdot3=16-12=4\), \(\sqrt D=2\).<br />
+                    \(x_1=\dfrac{4-2}{2}=1\), &nbsp; \(x_2=\dfrac{4+2}{2}=3\).</div>
+            </div>
+            <div class="naidis">
+                <div class="naidis-pea">\(D=0\): \(x^2-6x+9=0\) <a class="proovi" asp-action="Index" asp-route-valem="x^2 - 6*x + 9" asp-route-leia="null">Попробовать →</a></div>
+                <div class="naidis-sisu">\(D=36-36=0\) ⇒ \(x=\dfrac{-b}{2a}=\dfrac{6}{2}=3\). График только касается оси Ox.</div>
+            </div>
+            <div class="naidis">
+                <div class="naidis-pea">\(D&lt;0\): \(x^2+2x+5=0\) <a class="proovi" asp-action="Index" asp-route-valem="x^2 + 2*x + 5" asp-route-leia="null">Попробовать →</a></div>
+                <div class="naidis-sisu">\(D=4-20=-16&lt;0\) ⇒ корней нет. График целиком выше оси Ox.</div>
+            </div>
+            <div class="reegel"><b>Приведённое квадратное уравнение</b> (\(a=1\)): \(x^2+px+q=0 \Rightarrow x_{1,2}=-\dfrac p2\pm\sqrt{\left(\dfrac p2\right)^2-q}\).<br />
+                Пример: \(x^2-4x+3=0\): \(x=2\pm\sqrt{4-3}=2\pm1\) ⇒ \(x_1=1,\ x_2=3\).<br />
+                <b>Теорема Виета:</b> \(x_1+x_2=-p\), \(x_1x_2=q\). Здесь \(1+3=4\), \(1\cdot3=3\) ✓</div>
+
+            <h3 id="null-c">C. Неполное квадратное уравнение</h3>
+            <div class="naidis">
+                <div class="naidis-pea">\(c=0\): \(x^2-5x=0\) <a class="proovi" asp-action="Index" asp-route-valem="x^2 - 5*x" asp-route-leia="null">Попробовать →</a></div>
+                <div class="naidis-sisu">Выносим \(x\) за скобки: \(x(x-5)=0\). Произведение равно нулю, если один из множителей равен нулю: \(x=0\) или \(x=5\).<br />
+                    Не делите на \(x\) — потеряете корень \(x=0\)!</div>
+            </div>
+            <div class="naidis">
+                <div class="naidis-pea">\(b=0\): \(x^2-9=0\) <a class="proovi" asp-action="Index" asp-route-valem="x^2 - 9" asp-route-leia="null">Попробовать →</a></div>
+                <div class="naidis-sisu">\(x^2=9 \Rightarrow x=\pm3\). &nbsp; А \(x^2+4=0 \Rightarrow x^2=-4\) — корней нет (квадрат не бывает отрицательным).</div>
+            </div>
+
+            <h3 id="null-d">D. Вынесение за скобки</h3>
+            <div class="naidis">
+                <div class="naidis-pea">\(x^3-4x=0\) <a class="proovi" asp-action="Index" asp-route-valem="x^3 - 4*x" asp-route-leia="null">Попробовать →</a></div>
+                <div class="naidis-sisu">\(x(x^2-4)=0 \Rightarrow x=0\) или \(x^2=4 \Rightarrow x=\pm2\).<br />Корни: \(-2;\ 0;\ 2\).</div>
+            </div>
+
+            <h3 id="null-e">E. Биквадратное уравнение</h3>
+            <div class="naidis">
+                <div class="naidis-pea">\(x^4-5x^2+4=0\) <a class="proovi" asp-action="Index" asp-route-valem="x^4 - 5*x^2 + 4" asp-route-leia="null">Попробовать →</a></div>
+                <div class="naidis-sisu">Замена \(t=x^2\): \(t^2-5t+4=0\), \(D=25-16=9\), \(t_1=1,\ t_2=4\).<br />
+                    Обратно: \(x^2=1 \Rightarrow x=\pm1\); \(x^2=4 \Rightarrow x=\pm2\).<br />
+                    Если какое-то \(t\) получилось отрицательным, оно корней не даёт.</div>
+            </div>
+
+            <h3 id="null-f">F. Уравнение высокой степени — подбор корня и схема Горнера</h3>
+            <div class="reegel">Целый корень всегда является <b>делителем свободного члена</b>. Проверяйте по очереди \(\pm1,\ \pm2,\ldots\). Если \(P(r)=0\), делите многочлен на \((x-r)\).</div>
+            <div class="naidis">
+                <div class="naidis-pea">\(x^3-6x^2+11x-6=0\) <a class="proovi" asp-action="Index" asp-route-valem="x^3 - 6*x^2 + 11*x - 6" asp-route-leia="null">Попробовать →</a></div>
+                <div class="naidis-sisu">
+                    Делители числа 6: \(\pm1,\ \pm2,\ \pm3,\ \pm6\). &nbsp; \(P(1)=1-6+11-6=0\) ✓<br />
+                    Схема Горнера (коэффициенты \(1,\ -6,\ 11,\ -6\), \(r=1\)):
+                    <table class="margitabel">
+                        <tr><th></th><td>1</td><td>−6</td><td>11</td><td>−6</td></tr>
+                        <tr><th>r = 1</th><td>1</td><td>1·1 − 6 = <b>−5</b></td><td>−5·1 + 11 = <b>6</b></td><td>6·1 − 6 = <b>0</b></td></tr>
+                    </table>
+                    Остаток 0 ⇒ \(x^3-6x^2+11x-6=(x-1)(x^2-5x+6)\).<br />
+                    \(x^2-5x+6=0 \Rightarrow x=2,\ x=3\). &nbsp; Корни: \(1;\ 2;\ 3\).
+                </div>
+            </div>
+
+            <h3 id="null-g">G. Дробное уравнение</h3>
+            <div class="reegel">\(\dfrac{u}{v}=0 \iff u=0\) <b>и</b> \(v\neq0\). После решения проверьте, что знаменатель не обращается в ноль!</div>
+            <div class="naidis">
+                <div class="naidis-pea">\(\dfrac{x^2-1}{x+2}=0\) <a class="proovi" asp-action="Index" asp-route-valem="(x^2-1)/(x+2)" asp-route-leia="null">Попробовать →</a></div>
+                <div class="naidis-sisu">Числитель: \(x^2-1=0 \Rightarrow x=\pm1\). Знаменатель \(x+2\) в этих точках не равен нулю ✓. Корни: \(\pm1\).</div>
+            </div>
+            <div class="naidis">
+                <div class="naidis-pea">Ловушка: \(\dfrac{x^2-4}{x-2}=0\)</div>
+                <div class="naidis-sisu">Числитель даёт \(x=\pm2\), но при \(x=2\) знаменатель равен нулю ⇒ этот корень не подходит. Единственный корень: \(x=-2\).</div>
+            </div>
+
+            <h3 id="null-h">H. Экспонента</h3>
+            <div class="naidis">
+                <div class="naidis-pea">\(x\cdot e^{x}=0\) <a class="proovi" asp-action="Index" asp-route-valem="x*exp(x)" asp-route-leia="null">Попробовать →</a></div>
+                <div class="naidis-sisu">\(e^x&gt;0\) при любом \(x\), поэтому \(e^x\) не может быть нулём. Остаётся \(x=0\).<br />
+                    Аналогично \((x^2-1)e^{x}=0 \Rightarrow x^2-1=0 \Rightarrow x=\pm1\).</div>
+            </div>
+
+            <h3 id="null-i">I. Логарифм</h3>
+            <div class="naidis">
+                <div class="naidis-pea">\(\ln(x-2)=0\) <a class="proovi" asp-action="Index" asp-route-valem="ln(x-2)" asp-route-leia="null">Попробовать →</a></div>
+                <div class="naidis-sisu">\(\ln u=0 \iff u=e^0=1\). Значит \(x-2=1 \Rightarrow x=3\). Проверка: \(3\in X=(2;\ \infty)\) ✓</div>
+            </div>
+
+            <h3 id="null-j">J. Тригонометрия</h3>
+            <div class="naidis">
+                <div class="naidis-pea">\(\sin x=0\), \(\cos x=0\) <a class="proovi" asp-action="Index" asp-route-valem="sin(x)" asp-route-leia="null">Попробовать →</a></div>
+                <div class="naidis-sisu">\(\sin x=0 \Rightarrow x=\pi k\); &nbsp; \(\cos x=0 \Rightarrow x=\dfrac\pi2+\pi k\), &nbsp; \(k\in\mathbb Z\).<br />
+                    <span class="vihje">Калькулятор ищет корни на отрезке \([-20;\ 20]\) и показывает их приближённо.</span></div>
+            </div>
+        </section>
+
+        <!-- ================= MÄRGID ================= -->
+        <section class="kaart teema" id="marg">
+            <h2><span class="valik-ikoon">±</span> Промежутки знакопостоянства (метод интервалов)</h2>
+            <div class="reegel"><b>Правило.</b> Ищем, где \(f(x)&gt;0\) (график выше оси Ox) и где \(f(x)&lt;0\) (график ниже оси Ox).<br />
+                1) Отметьте на числовой прямой нули и «выколотые» точки области определения. 2) Они делят прямую на промежутки. 3) Возьмите в каждом промежутке <b>пробную точку</b> и найдите знак \(f\).</div>
+            <div class="naidis">
+                <div class="naidis-pea">\(f(x)=x^2-4x+3\), нули \(1\) и \(3\) <a class="proovi" asp-action="Index" asp-route-valem="x^2 - 4*x + 3" asp-route-leia="marg">Попробовать →</a></div>
+                <div class="naidis-sisu">
+                    <div class="tabelikast"><table class="margitabel">
+                        <tr><th>x</th><td>\((-\infty;\ 1)\)</td><td>1</td><td>\((1;\ 3)\)</td><td>3</td><td>\((3;\ \infty)\)</td></tr>
+                        <tr><th>пробная точка</th><td>\(f(0)=3\)</td><td></td><td>\(f(2)=-1\)</td><td></td><td>\(f(4)=3\)</td></tr>
+                        <tr><th>знак</th><td class="pluss">+</td><td>0</td><td class="miinus">−</td><td>0</td><td class="pluss">+</td></tr>
+                    </table></div>
+                    \(f&gt;0\) при \(x\in(-\infty;\ 1)\cup(3;\ \infty)\), &nbsp; \(f&lt;0\) при \(x\in(1;\ 3)\).
+                </div>
+            </div>
+            <div class="hoiatus">Около корня чётной кратности (например, \((x-2)^2\)) знак <b>не меняется</b>. Поэтому проверяйте пробную точку в каждом промежутке, а не просто чередуйте знаки.</div>
+        </section>
+
+        <!-- ================= TULETIS ================= -->
+        <section class="kaart teema" id="t1">
+            <h2><span class="valik-ikoon">f'</span> Производная</h2>
+            <div class="reegel"><b>Что это?</b> \(f'(x_0)\) — угловой коэффициент касательной к графику в точке \(x_0\): как быстро и в какую сторону функция там меняется.</div>
+
+            <h3>Таблица производных</h3>
+            <table class="juhtumid">
+                <thead><tr><th>Функция</th><th>Производная</th><th>Функция</th><th>Производная</th></tr></thead>
+                <tbody>
+                    <tr><td>\(c\) (число)</td><td>\(0\)</td><td>\(e^x\)</td><td>\(e^x\)</td></tr>
+                    <tr><td>\(x\)</td><td>\(1\)</td><td>\(a^x\)</td><td>\(a^x\ln a\)</td></tr>
+                    <tr><td>\(x^n\)</td><td>\(n\,x^{n-1}\)</td><td>\(\ln x\)</td><td>\(\dfrac1x\)</td></tr>
+                    <tr><td>\(\sqrt x\)</td><td>\(\dfrac{1}{2\sqrt x}\)</td><td>\(\sin x\)</td><td>\(\cos x\)</td></tr>
+                    <tr><td>\(\dfrac1x\)</td><td>\(-\dfrac{1}{x^2}\)</td><td>\(\cos x\)</td><td>\(-\sin x\)</td></tr>
+                    <tr><td>\(kx+b\)</td><td>\(k\)</td><td>\(\tan x\)</td><td>\(\dfrac{1}{\cos^2x}\)</td></tr>
+                </tbody>
+            </table>
+
+            <h3>Правила дифференцирования</h3>
+            <table class="juhtumid">
+                <tbody>
+                    <tr><th>Сумма / разность</th><td>\((u\pm v)'=u'\pm v'\)</td></tr>
+                    <tr><th>Число выносится</th><td>\((c\cdot u)'=c\cdot u'\)</td></tr>
+                    <tr><th>Произведение</th><td>\((u\cdot v)'=u'v+uv'\)</td></tr>
+                    <tr><th>Частное</th><td>\(\left(\dfrac uv\right)'=\dfrac{u'v-uv'}{v^2}\)</td></tr>
+                    <tr><th>Сложная функция</th><td>\(\big(f(g(x))\big)'=f'(g(x))\cdot g'(x)\) — «производная внешней на производную внутренней»</td></tr>
+                </tbody>
+            </table>
+            <div class="hoiatus">Перед дифференцированием запишите корни и дроби как степени: \(\sqrt x=x^{1/2}\), \(\dfrac{1}{x^2}=x^{-2}\), \(\sqrt[3]{x^2}=x^{2/3}\).</div>
+
+            <div class="naidis">
+                <div class="naidis-pea">Многочлен: \(f(x)=x^3-3x^2+5\) <a class="proovi" asp-action="Index" asp-route-valem="x^3 - 3*x^2 + 5" asp-route-leia="t1">Попробовать →</a></div>
+                <div class="naidis-sisu">Каждое слагаемое отдельно: \((x^3)'=3x^2\), \((3x^2)'=6x\), \((5)'=0\) ⇒ \(f'(x)=3x^2-6x\).</div>
+            </div>
+            <div class="naidis">
+                <div class="naidis-pea">Корень: \(f(x)=2\sqrt x\) <a class="proovi" asp-action="Index" asp-route-valem="2*x^(1/2)" asp-route-leia="t1">Попробовать →</a></div>
+                <div class="naidis-sisu">\(2\sqrt x=2x^{1/2}\) ⇒ \(f'(x)=2\cdot\frac12x^{-1/2}=x^{-1/2}=\dfrac{1}{\sqrt x}\).</div>
+            </div>
+            <div class="naidis">
+                <div class="naidis-pea">Произведение: \(f(x)=x\cdot e^x\) <a class="proovi" asp-action="Index" asp-route-valem="x*exp(x)" asp-route-leia="t1">Попробовать →</a></div>
+                <div class="naidis-sisu">\(u=x,\ v=e^x\): \(f'(x)=1\cdot e^x+x\cdot e^x=e^x(1+x)\).</div>
+            </div>
+            <div class="naidis">
+                <div class="naidis-pea">Частное: \(f(x)=\dfrac{x}{x^2+1}\) <a class="proovi" asp-action="Index" asp-route-valem="x/(x^2+1)" asp-route-leia="t1">Попробовать →</a></div>
+                <div class="naidis-sisu">\(u=x,\ u'=1,\ v=x^2+1,\ v'=2x\):<br />
+                    \(f'(x)=\dfrac{1\cdot(x^2+1)-x\cdot2x}{(x^2+1)^2}=\dfrac{1-x^2}{(x^2+1)^2}\).</div>
+            </div>
+            <div class="naidis">
+                <div class="naidis-pea">Сложная функция</div>
+                <div class="naidis-sisu">
+                    \(\big((2x-1)^5\big)'=5(2x-1)^4\cdot2=10(2x-1)^4\)<br />
+                    \(\big(\sin 3x\big)'=\cos 3x\cdot3=3\cos3x\)<br />
+                    \(\big(\ln(x^2+1)\big)'=\dfrac{1}{x^2+1}\cdot2x=\dfrac{2x}{x^2+1}\)<br />
+                    \(\big(e^{-x^2}\big)'=e^{-x^2}\cdot(-2x)=-2x\,e^{-x^2}\)
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= KRIITILISED ================= -->
+        <section class="kaart teema" id="kp">
+            <h2><span class="valik-ikoon">•</span> Критические точки</h2>
+            <div class="reegel"><b>Правило.</b> Критические точки — точки области определения, где \(f'(x)=0\) (или производной нет). Там касательная горизонтальна — это <b>кандидаты</b> в максимумы и минимумы.</div>
+            <div class="naidis">
+                <div class="naidis-pea">\(f(x)=x^3-3x\) <a class="proovi" asp-action="Index" asp-route-valem="x^3 - 3*x" asp-route-leia="kp">Попробовать →</a></div>
+                <div class="naidis-sisu">\(f'(x)=3x^2-3=0 \Rightarrow x^2=1 \Rightarrow x=\pm1\).</div>
+            </div>
+            <div class="naidis">
+                <div class="naidis-pea">Дробь: \(f(x)=\dfrac{x^2+1}{x}\) <a class="proovi" asp-action="Index" asp-route-valem="(x^2+1)/x" asp-route-leia="kp">Попробовать →</a></div>
+                <div class="naidis-sisu">\(f'(x)=\dfrac{2x\cdot x-(x^2+1)}{x^2}=\dfrac{x^2-1}{x^2}=0 \Rightarrow x^2-1=0 \Rightarrow x=\pm1\).<br />
+                    \(x=0\) не критическая точка, потому что \(0\notin X\).</div>
+            </div>
+        </section>
+
+        <!-- ================= MONOTOONSUS ================= -->
+        <section class="kaart teema" id="mon">
+            <h2><span class="valik-ikoon">↗︎</span> Возрастание и убывание</h2>
+            <div class="reegel"><b>Правило.</b> \(f'(x)&gt;0\) ⇒ функция <b>возрастает ↗︎</b>; &nbsp; \(f'(x)&lt;0\) ⇒ функция <b>убывает ↘︎</b>.<br />
+                Критические точки (и выколотые точки области определения) делят прямую на промежутки; в каждом смотрим знак \(f'\) по пробной точке.</div>
+            <div class="naidis">
+                <div class="naidis-pea">\(f(x)=x^3-3x\), \(f'(x)=3x^2-3\) <a class="proovi" asp-action="Index" asp-route-valem="x^3 - 3*x" asp-route-leia="mon">Попробовать →</a></div>
+                <div class="naidis-sisu">
+                    <div class="tabelikast"><table class="margitabel">
+                        <tr><th>x</th><td>\((-\infty;\ -1)\)</td><td>−1</td><td>\((-1;\ 1)\)</td><td>1</td><td>\((1;\ \infty)\)</td></tr>
+                        <tr><th>\(f'\)</th><td class="pluss">+ &nbsp;<small>\(f'(-2)=9\)</small></td><td>0</td><td class="miinus">− &nbsp;<small>\(f'(0)=-3\)</small></td><td>0</td><td class="pluss">+ &nbsp;<small>\(f'(2)=9\)</small></td></tr>
+                        <tr><th>\(f\)</th><td>↗︎</td><td>max</td><td>↘︎</td><td>min</td><td>↗︎</td></tr>
+                    </table></div>
+                    Возрастает: \((-\infty;\ -1)\cup(1;\ \infty)\); &nbsp; убывает: \((-1;\ 1)\).
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= EKSTREEMUMID ================= -->
+        <section class="kaart teema" id="ekst">
+            <h2><span class="valik-ikoon">▲</span> Экстремумы</h2>
+            <div class="reegel"><b>Правило (смена знака).</b> В критической точке \(x_0\):<br />
+                знак \(f'\) меняется с \(+\) на \(-\) ⇒ <b>максимум</b> (рост сменяется спадом);<br />
+                знак \(f'\) меняется с \(-\) на \(+\) ⇒ <b>минимум</b> (спад сменяется ростом);<br />
+                знак не меняется ⇒ экстремума <b>нет</b>.<br />
+                Значение экстремума: \(y=f(x_0)\) — подставляем в <b>исходную</b> функцию, а не в производную!</div>
+            <div class="naidis">
+                <div class="naidis-pea">\(f(x)=x^3-3x\) <a class="proovi" asp-action="Index" asp-route-valem="x^3 - 3*x" asp-route-leia="ekst">Попробовать →</a></div>
+                <div class="naidis-sisu">\(x=-1\): \(+\to-\) ⇒ max, \(f(-1)=(-1)^3-3(-1)=-1+3=2\) ⇒ \(\max(-1;\ 2)\).<br />
+                    \(x=1\): \(-\to+\) ⇒ min, \(f(1)=1-3=-2\) ⇒ \(\min(1;\ -2)\).</div>
+            </div>
+            <div class="naidis">
+                <div class="naidis-pea">Экстремума нет: \(f(x)=x^3\) <a class="proovi" asp-action="Index" asp-route-valem="x^3" asp-route-leia="ekst">Попробовать →</a></div>
+                <div class="naidis-sisu">\(f'(x)=3x^2=0 \Rightarrow x=0\), но \(3x^2\ge0\) с обеих сторон ⇒ знак не меняется ⇒ экстремума нет.</div>
+            </div>
+            <div class="reegel"><b>Второй способ (через вторую производную).</b> \(f''(x_0)&lt;0\) ⇒ max; \(f''(x_0)&gt;0\) ⇒ min; \(f''(x_0)=0\) ⇒ ничего не ясно, используйте смену знака.<br />
+                Пример: \(f''(x)=6x\): \(f''(-1)=-6&lt;0\) ⇒ max, \(f''(1)=6&gt;0\) ⇒ min ✓</div>
+            <h3>Наибольшее и наименьшее значение на отрезке [a; b]</h3>
+            <div class="naidis">
+                <div class="naidis-pea">\(f(x)=x^3-3x\) на отрезке \([0;\ 2]\)</div>
+                <div class="naidis-sisu">1) Критические точки на отрезке: только \(x=1\).<br />
+                    2) Считаем значения в критических точках <b>и на концах</b>: \(f(0)=0\), \(f(1)=-2\), \(f(2)=8-6=2\).<br />
+                    3) Выбираем: наибольшее значение \(2\) (при \(x=2\)), наименьшее \(-2\) (при \(x=1\)).</div>
+            </div>
+        </section>
+
+        <!-- ================= TEINE TULETIS ================= -->
+        <section class="kaart teema" id="t2">
+            <h2><span class="valik-ikoon">f''</span> Вторая производная</h2>
+            <div class="reegel"><b>Правило.</b> Вторая производная — производная от производной: \(f''(x)=\big(f'(x)\big)'\). Правила те же, что для <a href="#t1">первой производной</a>.</div>
+            <div class="naidis">
+                <div class="naidis-pea">\(f(x)=x^4-2x^2\) <a class="proovi" asp-action="Index" asp-route-valem="x^4 - 2*x^2" asp-route-leia="t2">Попробовать →</a></div>
+                <div class="naidis-sisu">\(f'(x)=4x^3-4x\) ⇒ \(f''(x)=12x^2-4\).</div>
+            </div>
+        </section>
+
+        <!-- ================= KUMERUS ================= -->
+        <section class="kaart teema" id="kum">
+            <h2><span class="valik-ikoon">∩</span> Выпуклость и вогнутость</h2>
+            <div class="reegel"><b>Правило.</b> \(f''(x)&lt;0\) ⇒ график <b>выпуклый ∩</b> («горка»); &nbsp; \(f''(x)&gt;0\) ⇒ график <b>вогнутый ∪</b> («чаша», держит воду).<br />
+                Нули второй производной делят прямую на промежутки; в каждом смотрим знак \(f''\).</div>
+            <div class="naidis">
+                <div class="naidis-pea">\(f(x)=x^3-3x\), \(f''(x)=6x\) <a class="proovi" asp-action="Index" asp-route-valem="x^3 - 3*x" asp-route-leia="kum">Попробовать →</a></div>
+                <div class="naidis-sisu">
+                    <table class="margitabel">
+                        <tr><th>x</th><td>\((-\infty;\ 0)\)</td><td>0</td><td>\((0;\ \infty)\)</td></tr>
+                        <tr><th>\(f''\)</th><td class="miinus">−</td><td>0</td><td class="pluss">+</td></tr>
+                        <tr><th>график</th><td>выпуклый ∩</td><td>перегиб</td><td>вогнутый ∪</td></tr>
+                    </table>
+                </div>
+            </div>
+            <div class="hoiatus">В разных учебниках названия отличаются: ∩ называют «выпуклой вверх», а ∪ — «выпуклой вниз». Здесь используется: <b>выпуклая = ∩</b>, <b>вогнутая = ∪</b>.</div>
+        </section>
+
+        <!-- ================= KÄÄNUPUNKTID ================= -->
+        <section class="kaart teema" id="kaanu">
+            <h2><span class="valik-ikoon">∿</span> Точки перегиба</h2>
+            <div class="reegel"><b>Правило.</b> В точке перегиба график меняет направление изгиба (∩ ↔ ∪): \(f''(x_0)=0\) <b>и</b> \(f''\) меняет там знак. Точка: \((x_0;\ f(x_0))\).</div>
+            <div class="naidis">
+                <div class="naidis-pea">\(f(x)=x^4-2x^2\), \(f''(x)=12x^2-4\) <a class="proovi" asp-action="Index" asp-route-valem="x^4 - 2*x^2" asp-route-leia="kaanu">Попробовать →</a></div>
+                <div class="naidis-sisu">\(12x^2-4=0 \Rightarrow x^2=\frac13 \Rightarrow x=\pm\frac{\sqrt3}{3}\approx\pm0{,}577\).<br />
+                    Знак меняется в обеих точках ⇒ это точки перегиба. \(f\!\left(\pm\frac{\sqrt3}{3}\right)=\frac19-\frac23=-\frac59\).<br />
+                    Ответ: \(\left(\pm\frac{\sqrt3}{3};\ -\frac59\right)\).</div>
+            </div>
+            <div class="naidis">
+                <div class="naidis-pea">Перегиба нет: \(f(x)=x^4\) <a class="proovi" asp-action="Index" asp-route-valem="x^4" asp-route-leia="kaanu">Попробовать →</a></div>
+                <div class="naidis-sisu">\(f''(x)=12x^2=0 \Rightarrow x=0\), но \(12x^2\ge0\) с обеих сторон ⇒ знак не меняется ⇒ перегиба нет.</div>
+            </div>
+        </section>
+
+        <!-- ================= PUUTUJA ================= -->
+        <section class="kaart teema" id="puut">
+            <h2><span class="valik-ikoon">⟋</span> Касательная и нормаль</h2>
+            <div class="reegel"><b>Уравнение касательной:</b> \(y-y_0=f'(x_0)\,(x-x_0)\)<br />
+                <b>Уравнение нормали:</b> \(y-y_0=-\dfrac{1}{f'(x_0)}\,(x-x_0)\) &nbsp; (нормаль перпендикулярна касательной: \(k_n=-\frac1k\))</div>
+            <p><b>Шаги:</b> 1) \(y_0=f(x_0)\) &nbsp; 2) найти \(f'(x)\) &nbsp; 3) \(k=f'(x_0)\) &nbsp; 4) подставить в формулу и выразить \(y\).</p>
+            <div class="naidis">
+                <div class="naidis-pea">\(f(x)=x^2-4x+3\), \(x_0=3\) <a class="proovi" asp-action="Index" asp-route-valem="x^2 - 4*x + 3" asp-route-leia="puut">Попробовать →</a></div>
+                <div class="naidis-sisu">
+                    1) \(y_0=9-12+3=0\) &nbsp; 2) \(f'(x)=2x-4\) &nbsp; 3) \(k=f'(3)=2\)<br />
+                    4) Касательная: \(y-0=2(x-3) \Rightarrow y=2x-6\).<br />
+                    Нормаль: \(k_n=-\frac12\): \(y=-\frac12(x-3) \Rightarrow y=-0{,}5x+1{,}5\).
+                </div>
+            </div>
+            <div class="hoiatus">Особый случай: если \(k=0\), касательная горизонтальна \(y=y_0\), а нормаль вертикальна \(x=x_0\).</div>
+            <h3>Касательная, параллельная данной прямой</h3>
+            <div class="naidis">
+                <div class="naidis-pea">\(f(x)=x^2\), касательная параллельна прямой \(y=4x-1\)</div>
+                <div class="naidis-sisu">У параллельных прямых одинаковый угловой коэффициент: \(f'(x_0)=4 \Rightarrow 2x_0=4 \Rightarrow x_0=2\), \(y_0=4\).<br />
+                    Касательная: \(y-4=4(x-2) \Rightarrow y=4x-4\).</div>
+            </div>
+        </section>
+
+        <!-- ================= VÄÄRTUS ================= -->
+        <section class="kaart teema" id="vaart">
+            <h2><span class="valik-ikoon">=</span> Значение функции в точке</h2>
+            <div class="reegel"><b>Правило.</b> Чтобы найти \(f(a)\), подставьте число \(a\) вместо <b>каждого</b> \(x\). Отрицательное число всегда берите в скобки!</div>
+            <div class="naidis">
+                <div class="naidis-pea">\(f(x)=x^2-4x+3\), найти \(f(-2)\) <a class="proovi" asp-action="Index" asp-route-valem="x^2 - 4*x + 3" asp-route-leia="vaart">Попробовать →</a></div>
+                <div class="naidis-sisu">\(f(-2)=(-2)^2-4\cdot(-2)+3=4+8+3=15\).<br />
+                    \((-2)^2=4\), а \(-2^2=-4\) — скобки важны!</div>
+            </div>
+        </section>
+
+        <!-- ================= ASÜMPTOODID ================= -->
+        <section class="kaart teema" id="asym">
+            <h2><span class="valik-ikoon">⇥</span> Асимптоты (дополнительно)</h2>
+            <div class="reegel"><b>Вертикальная асимптота</b> \(x=a\): нуль знаменателя, который не является нулём числителя (график уходит в бесконечность).<br />
+                <b>Горизонтальная асимптота</b> \(y=b\): значение, к которому стремится \(f(x)\) при \(x\to\pm\infty\). Для дроби: если степени числителя и знаменателя равны, \(b\) — отношение старших коэффициентов; если степень знаменателя больше, то \(y=0\).</div>
+            <div class="naidis">
+                <div class="naidis-pea">\(f(x)=\dfrac{2x+1}{x-1}\) <a class="proovi" asp-action="Index" asp-route-valem="(2*x+1)/(x-1)">Попробовать →</a></div>
+                <div class="naidis-sisu">Вертикальная: \(x-1=0 \Rightarrow x=1\). Горизонтальная: степени равны ⇒ \(y=\frac21=2\).<br />
+                    <span class="vihje">Калькулятор не считает асимптоты отдельно, но на графике их хорошо видно.</span></div>
+            </div>
+        </section>
+
+        <!-- ================= VEAD ================= -->
+        <section class="kaart teema" id="vead">
+            <h2><span class="valik-ikoon">!</span> Частые ошибки</h2>
+            <table class="juhtumid">
+                <thead><tr><th>Ошибка</th><th>Правильно</th></tr></thead>
+                <tbody>
+                    <tr><td>Делят уравнение на \(x\): \(x^2=5x \Rightarrow x=5\)</td><td>Вынести за скобки: \(x(x-5)=0 \Rightarrow x=0\) или \(x=5\)</td></tr>
+                    <tr><td>\(-2^2=4\)</td><td>\(-2^2=-4\), &nbsp; \((-2)^2=4\)</td></tr>
+                    <tr><td>\(y\) экстремума считают по производной</td><td>\(y\) считают по <b>исходной</b> функции \(f(x_0)\)</td></tr>
+                    <tr><td>\(f'(x_0)=0\) ⇒ обязательно экстремум</td><td>Проверьте смену знака (у \(x^3\) экстремума нет)</td></tr>
+                    <tr><td>Забывают про область определения</td><td>Корни, которые не входят в \(X\), надо отбросить</td></tr>
+                    <tr><td>Делят неравенство на отрицательное число и не меняют знак</td><td>\(-2x\ge-6 \Rightarrow x\le3\) (знак меняется)</td></tr>
+                    <tr><td>\((u\cdot v)'=u'\cdot v'\)</td><td>\((u\cdot v)'=u'v+uv'\)</td></tr>
+                    <tr><td>Квадратные скобки \([\ ]\) у бесконечности или выколотой точки</td><td>У \(\infty\) и выколотых точек всегда круглые \((\ )\)</td></tr>
+                </tbody>
+            </table>
+        </section>
+
+        <!-- ================= KLAVIATUUR ================= -->
+        <section class="kaart teema" id="klaviatuur">
+            <h2><span class="valik-ikoon">⌨</span> Как вводить формулы</h2>
+            <table class="juhtumid">
+                <thead><tr><th>Нужно написать</th><th>Экранная клавиатура</th><th>Обычная клавиатура</th></tr></thead>
+                <tbody>
+                    <tr><td>\(x^2\), \(x^n\)</td><td><b>x²</b> или <b>x<sup>□</sup></b></td><td><kbd>x</kbd> <kbd>^</kbd> <kbd>2</kbd>, затем <kbd>→</kbd> выйти из степени</td></tr>
+                    <tr><td>\(\dfrac{a}{b}\)</td><td>кнопка дроби</td><td><kbd>/</kbd></td></tr>
+                    <tr><td>\(\sqrt{x}\)</td><td><b>√□</b></td><td>напечатать <kbd>sqrt</kbd></td></tr>
+                    <tr><td>\(e^x\)</td><td><b>e<sup>□</sup></b></td><td><kbd>e</kbd> <kbd>^</kbd> <kbd>x</kbd></td></tr>
+                    <tr><td>\(\ln x\), \(\sin x\)</td><td><b>ln</b>, <b>sin</b> …</td><td>напечатать <kbd>ln</kbd>, <kbd>sin</kbd></td></tr>
+                    <tr><td>\(\pi\)</td><td><b>π</b></td><td>напечатать <kbd>pi</kbd></td></tr>
+                    <tr><td>умножение \(2x\)</td><td>не нужно: <b>2</b> <b>x</b></td><td><kbd>2</kbd> <kbd>x</kbd> или <kbd>*</kbd></td></tr>
+                    <tr><td>выйти из степени / дроби</td><td><b>|→</b></td><td><kbd>→</kbd></td></tr>
+                </tbody>
+            </table>
+            <p class="mb-0"><a class="proovi" asp-action="Index">Открыть калькулятор →</a></p>
+        </section>
+    </div>
+</div>
+

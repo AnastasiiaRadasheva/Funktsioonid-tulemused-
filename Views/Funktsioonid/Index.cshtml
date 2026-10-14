@@ -1,0 +1,98 @@
+@model IEnumerable<FunktsiooniUurimine>
+@{
+    ViewData["Title"] = T["Сохранённые", "Salvestatud"];
+    var arv = Model.Count();
+}
+
+<div class="salv-pea">
+    <div>
+        <h1 class="salv-pealkiri">@T["Сохранённые функции", "Salvestatud funktsioonid"]</h1>
+        @if (arv > 0)
+        {
+            <p class="vihje mb-0">@T["Всего", "Kokku"]: @arv · @T["нажмите на график, чтобы открыть полное исследование", "klõpsa graafikul, et avada täielik uurimine"]</p>
+        }
+    </div>
+    <a class="btn btn-primary" asp-controller="Home" asp-action="Index">+ @T["Новая функция", "Uus funktsioon"]</a>
+</div>
+
+@if (arv == 0)
+{
+    <div class="kaart salv-tuhi">
+        <div class="salv-tuhi-ikoon">f(x)</div>
+        <p class="mb-1"><b>@T["Пока нет сохранённых функций.", "Salvestatud funktsioone pole veel."]</b></p>
+        <p class="vihje">@T["Откройте калькулятор, посчитайте функцию и нажмите «Сохранить в мои функции».", "Ava kalkulaator, arvuta funktsioon ja vajuta „Salvesta minu funktsioonidesse“."]</p>
+        <a class="btn btn-primary" asp-controller="Home" asp-action="Index">@T["Открыть калькулятор", "Ava kalkulaator"]</a>
+    </div>
+}
+else
+{
+    <div class="salv-ruudustik">
+        @foreach (var f in Model)
+        {
+            <article class="fkaart">
+                <div class="fkaart-pea">
+                    <div class="fkaart-valem mat">@f.Valem</div>
+                    <time class="fkaart-aeg" datetime="@f.LuodudAeg.ToString("o")">@f.LuodudAeg.ToLocalTime().ToString("dd.MM.yyyy HH:mm")</time>
+                </div>
+
+                <a class="fkaart-graafik" asp-action="Details" asp-route-id="@f.Id" aria-label="@T["Открыть исследование", "Ava uurimine"]: @f.Valem">
+                    <canvas class="eelvaade" data-valem="@f.Valem"></canvas>
+                </a>
+
+                <dl class="fkaart-andmed">
+                    <div><dt>f'(x)</dt><dd class="mat">@f.Tuletis</dd></div>
+                    <div><dt>@T["Нули", "Nullkohad"]</dt><dd class="ilus">@T.Andmed(f.Nullkohad)</dd></div>
+                    <div><dt>@T["Экстремумы", "Ekstreemumid"]</dt><dd class="ilus">@T.Andmed(f.Ekstreemumid)</dd></div>
+                </dl>
+
+                <div class="fkaart-tegevused">
+                    <a class="btn btn-sm btn-primary" asp-action="Details" asp-route-id="@f.Id">@T["Открыть", "Vaata"]</a>
+                    <a class="btn btn-sm btn-outline-secondary" asp-controller="Home" asp-action="Index" asp-route-valem="@f.Valem">@T["В калькуляторе", "Kalkulaatoris"]</a>
+                    <span class="fkaart-vahe"></span>
+                    <a class="ikoonnupp" asp-action="Edit" asp-route-id="@f.Id" title="@T["Изменить", "Muuda"]" aria-label="@T["Изменить", "Muuda"]: @f.Valem"><svg viewBox="0 0 16 16" width="15" height="15" aria-hidden="true"><path d="M11.3 1.7a1 1 0 0 1 1.4 0l1.6 1.6a1 1 0 0 1 0 1.4L5.5 13.5 2 14l.5-3.5z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg></a>
+                    <a class="ikoonnupp ohtlik" asp-action="Delete" asp-route-id="@f.Id" title="@T["Удалить", "Kustuta"]" aria-label="@T["Удалить", "Kustuta"]: @f.Valem"><svg viewBox="0 0 16 16" width="15" height="15" aria-hidden="true"><path d="M2.5 4h11M6 4V2.5h4V4M4 4l.7 9.5h6.6L12 4M6.8 6.5v4.5M9.2 6.5v4.5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+                </div>
+            </article>
+        }
+    </div>
+}
+
+@section Scripts {
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css" />
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjs@13.2.0/lib/browser/math.js"></script>
+    <script src="~/js/valem.js" asp-append-version="true"></script>
+    <script src="~/js/plotter.js" asp-append-version="true"></script>
+    <script>
+        (function () {
+            // Valemid ilusaks, tekst x1 -> x₁
+            document.querySelectorAll('.mat').forEach(el => { el.innerHTML = Valem.ilus(el.textContent.trim()); });
+            document.querySelectorAll('.ilus').forEach(el => { el.textContent = Valem.ilusTekst(el.textContent.trim()); });
+
+            // Väike graafik iga funktsiooni all. Erilised punktid (nullkohad, ekstreemumid) küsime serverist
+            // alles siis, kui kaart on ekraanil – nii laeb leht kiiresti ka paljude funktsioonidega.
+            const joonista = async (louend) => {
+                const g = new Graafik(louend, { interaktiivne: false });
+                g.esile = ['null', 'max', 'min', 'kaanu'];
+                g.seaFunktsioon(louend.dataset.valem);
+                try {
+                    const andmed = await (await fetch('/Home/Analuusi?' + new URLSearchParams({ valem: louend.dataset.valem }))).json();
+                    if (andmed.margid) g.seaMargid(andmed.margid);
+                } catch { /* graafik joonistatakse ka ilma punktideta */ }
+                g.sobitaVaade();
+            };
+
+            const louendid = document.querySelectorAll('canvas.eelvaade');
+            if ('IntersectionObserver' in window) {
+                const vaatleja = new IntersectionObserver(kirjed => kirjed.forEach(k => {
+                    if (!k.isIntersecting) return;
+                    vaatleja.unobserve(k.target);
+                    joonista(k.target);
+                }), { rootMargin: '200px' });
+                louendid.forEach(l => vaatleja.observe(l));
+            } else {
+                louendid.forEach(joonista);
+            }
+        })();
+    </script>
+}

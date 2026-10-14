@@ -1,0 +1,255 @@
+@model FunktsiooniVorm
+
+<script src="https://cdn.jsdelivr.net/npm/mathlive@0.101.0/dist/mathlive.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/mathjs@13.2.0/lib/browser/math.js"></script>
+<script src="~/js/valem.js" asp-append-version="true"></script>
+
+<style>
+    .valemikast {
+        border: 1px solid #ced4da;
+        border-radius: .7rem;
+        background: #fff;
+        overflow: hidden;
+    }
+
+        .valemikast:focus-within {
+            border-color: #e5484d;
+            box-shadow: 0 0 0 .2rem rgba(229,72,77,.18);
+        }
+
+    math-field {
+        display: block;
+        width: 100%;
+        font-size: 1.9rem;
+        padding: .7rem 1rem;
+        min-height: 4.2rem;
+        border: none;
+        outline: none;
+        background: transparent;
+    }
+
+        math-field::part(menu-toggle) {
+            display: none;
+        }
+
+        math-field::part(virtual-keyboard-toggle) {
+            display: none;
+        }
+
+    .noolteriba {
+        display: flex;
+        gap: .35rem;
+        padding: .45rem .6rem;
+        background: #f3f4f7;
+        border-top: 1px solid #e3e6ec;
+    }
+
+    .nool {
+        min-width: 2.6rem;
+        height: 2.3rem;
+        border: 1px solid #d6dae2;
+        border-radius: .45rem;
+        background: #fff;
+        font-size: 1.05rem;
+        color: #1b2433;
+        line-height: 1;
+    }
+
+        .nool:hover {
+            background: #e9edf5;
+        }
+
+        .nool:active {
+            background: #dde3ee;
+        }
+
+        .nool.lopp {
+            margin-left: auto;
+            background: #1c1c1e;
+            color: #fff;
+            border-color: #1c1c1e;
+            padding: 0 .8rem;
+        }
+
+    .kontroll {
+        font-size: .8rem;
+        color: #6c757d;
+        margin-top: .4rem;
+    }
+
+    /* Tume klaviatuur nagu Photomathis */
+    body {
+        --keyboard-background: #1c1c1e;
+        --keyboard-toolbar-text: #8e8e93;
+        --keyboard-toolbar-text-active: #ffffff;
+        --keyboard-accent-color: #e5484d;
+        --keycap-background: #3a3a3c;
+        --keycap-background-hover: #4a4a4d;
+        --keycap-text: #ffffff;
+        --keycap-secondary-background: #2c2c2e;
+        --keycap-secondary-text: #ffffff;
+        --keycap-border: none;
+        --keycap-height: 52px;
+        --keycap-font-size: 22px;
+        --keycap-gap: 6px;
+    }
+</style>
+
+<div asp-validation-summary="ModelOnly" class="text-danger"></div>
+<input type="hidden" asp-for="Id" />
+
+<div class="mb-3">
+    <label class="form-label" for="valemiVali">@T["Формула f(x)", "Valem f(x)"]</label>
+
+    <div class="valemikast">
+        <math-field id="valemiVali"></math-field>
+        <div class="noolteriba">
+            <button type="button" class="nool" data-kask="moveToPreviousChar" title="@T["Курсор влево", "Kursor tagasi"]">◀</button>
+            <button type="button" class="nool" data-kask="moveToNextChar" title="@T["Курсор вправо", "Kursor edasi"]">▶</button>
+            <button type="button" class="nool" data-kask="undo" title="@T["Отменить", "Võta tagasi"]">↶</button>
+            <button type="button" class="nool" data-kask="redo" title="@T["Повторить", "Tee uuesti"]">↷</button>
+            <button type="button" class="nool" data-kask="deleteBackward" title="@T["Стереть", "Kustuta"]">⌫</button>
+            <button type="button" class="nool" data-kask="tyhjenda" title="@T["Очистить всё", "Tühjenda kõik"]">C</button>
+            <button type="button" class="nool lopp" data-kask="klaviatuur" title="@T["Клавиша Ё", "Klahv Ё"]">@T["Клавиатура (Ё)", "Klaviatuur (Ё)"]</button>
+        </div>
+    </div>
+
+    <input type="hidden" asp-for="Valem" />
+    <span asp-validation-for="Valem" class="text-danger small"></span>
+    <div class="kontroll">@T["На сервер уйдёт:", "Serverisse läheb:"] <code id="valemKontroll">—</code></div>
+</div>
+
+<div class="mb-3">
+    <label asp-for="Maaramispiirkond" class="form-label">@T["Область определения (необязательно)", "Määramispiirkond (valikuline)"]</label>
+    <div class="input-group">
+        <input asp-for="Maaramispiirkond" class="form-control" placeholder="@T["Оставьте пустым — найдётся автоматически", "Jäta tühjaks – leitakse automaatselt"]" />
+        <button type="button" class="btn btn-outline-secondary" data-mp="∞">∞</button>
+        <button type="button" class="btn btn-outline-secondary" data-mp="-∞">−∞</button>
+        <button type="button" class="btn btn-outline-secondary" data-mp=" ∪ ">∪</button>
+    </div>
+    <span asp-validation-for="Maaramispiirkond" class="text-danger small"></span>
+</div>
+
+<script>
+    (function () {
+        const mf = document.getElementById('valemiVali');
+        const peidetud = document.getElementById('Valem');
+        const kontroll = document.getElementById('valemKontroll');
+        const vorm = mf.closest('form');
+
+        // ---------- Klaviatuuri paigutus ----------
+        const sin = { label: 'sin', insert: '\\sin\\left(#0\\right)' };
+        const cos = { label: 'cos', insert: '\\cos\\left(#0\\right)' };
+        const tan = { label: 'tan', insert: '\\tan\\left(#0\\right)' };
+        const ln  = { label: 'ln',  insert: '\\ln\\left(#0\\right)' };
+        const tagasi = { label: '↶', command: 'undo', class: 'action', tooltip: t('Отменить', 'Võta tagasi') };
+        const edasi  = { label: '↷', command: 'redo', class: 'action', tooltip: t('Повторить', 'Tee uuesti') };
+
+        mathVirtualKeyboard.layouts = [
+            {
+                label: '123',
+                tooltip: t('Основные', 'Põhiline'),
+                rows: [
+                    ['x', '#@@^2', '#@@^{#?}', '\\frac{#@@}{#?}', '[separator]', '[7]', '[8]', '[9]', '\\div'],
+                    ['[(]', '[)]', '\\sqrt{#0}', '\\sqrt[#?]{#0}', '[separator]', '[4]', '[5]', '[6]', '\\cdot'],
+                    ['e^{#0}', '\\pi', ln, sin, '[separator]', '[1]', '[2]', '[3]', '[-]'],
+                    [tagasi, edasi, '[left]', '[right]', '[separator]', '[0]', '[.]', '[backspace]', '[+]']
+                ]
+            },
+            {
+                label: 'f(x)',
+                tooltip: t('Функции', 'Funktsioonid'),
+                rows: [
+                    [sin, cos, tan, ln, '[separator]', '[left]', '[right]'],
+                    ['e^{#0}', '\\pi', '\\sqrt{#0}', '\\frac{#@@}{#?}', '[separator]', tagasi, edasi],
+                    ['x', '[(]', '[)]', '#@@^{#?}', '[separator]', '[backspace]']
+                ]
+            }
+        ];
+
+        // ---------- Klaviatuur avaneb klahviga Ё ----------
+        mf.mathVirtualKeyboardPolicy = 'manual';
+
+        let klaviatuurLahti = false;
+
+        function naitaKlaviatuuri() {
+            mf.focus();
+            mathVirtualKeyboard.show();
+            klaviatuurLahti = true;
+        }
+
+        function peidaKlaviatuur() {
+            mathVirtualKeyboard.hide();
+            klaviatuurLahti = false;
+        }
+
+        function lulitaKlaviatuur() {
+            if (klaviatuurLahti) peidaKlaviatuur();
+            else naitaKlaviatuuri();
+        }
+
+        // Ё / ` / ~ / ˇ – klahv 1 kõrval (vene, eesti ja inglise paigutus)
+        function onKlahvYheKorval(e) {
+            return e.code === 'Backquote'
+                || ['ё', 'Ё', '`', '~', 'ˇ'].includes(e.key);
+        }
+
+        function klahvivajutus(e) {
+            // tavalistes tekstiväljades (nt määramispiirkond) Ё klaviatuuri ei ava
+            const t = e.target;
+            if (t && (t.tagName === 'INPUT' || t.tagName === 'TEXTAREA') && t !== mf) return;
+
+            if (!e.ctrlKey && !e.altKey && !e.metaKey && onKlahvYheKorval(e)) {
+                e.preventDefault();          // "ё" ei kirjutata välja sisse
+                e.stopPropagation();
+                lulitaKlaviatuur();
+            }
+        }
+
+        window.addEventListener('keydown', klahvivajutus, true);
+        mf.addEventListener('keydown', klahvivajutus, true);
+
+        mathVirtualKeyboard.addEventListener('geometrychange', () => {
+            document.body.style.paddingBottom = mathVirtualKeyboard.boundingRect.height + 'px';
+        });
+
+        // ---------- Nupud välja all ----------
+        document.querySelectorAll('[data-kask]').forEach(nupp => {
+            nupp.addEventListener('mousedown', e => e.preventDefault());
+            nupp.addEventListener('click', () => {
+                const kask = nupp.dataset.kask;
+                if (kask === 'klaviatuur') { lulitaKlaviatuur(); return; }
+                if (kask === 'tyhjenda') mf.value = '';
+                else mf.executeCommand(kask);
+                mf.focus();
+                sync();
+            });
+        });
+
+        function sync() {
+            const v = Valem.latexValemiks(mf.value);
+            peidetud.value = v;
+            kontroll.textContent = v || '—';
+        }
+
+        if (peidetud.value) {
+            mf.value = Valem.tex(peidetud.value) ?? peidetud.value;
+            sync();
+        }
+
+        mf.addEventListener('input', sync);
+        vorm.addEventListener('submit', sync);
+
+        // ---------- Määramispiirkonna nupud ----------
+        const mp = document.getElementById('Maaramispiirkond');
+        document.querySelectorAll('[data-mp]').forEach(nupp => {
+            nupp.addEventListener('mousedown', e => e.preventDefault());
+            nupp.addEventListener('click', () => {
+                const a = mp.selectionStart, b = mp.selectionEnd, t = nupp.dataset.mp;
+                mp.value = mp.value.slice(0, a) + t + mp.value.slice(b);
+                mp.focus();
+                mp.setSelectionRange(a + t.length, a + t.length);
+            });
+        });
+    })();
+</script>

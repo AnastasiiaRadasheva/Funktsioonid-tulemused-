@@ -1,0 +1,130 @@
+@{
+    ViewData["Title"] = T["Калькулятор", "Kalkulaator"];
+    var algValem = ViewData["Valem"] as string;
+    if (string.IsNullOrWhiteSpace(algValem)) algValem = "x^3 - 3*x";
+}
+
+<div class="kalk" id="kalk" data-valem="@algValem" data-leia="@ViewData["Leia"]" data-kerida="@(ViewData["Kerida"] is true ? "1" : "")">
+
+    <!-- 1. SISESTUS -->
+    <section class="kaart sisestus">
+        <div class="samm-silt"><span>1</span> @T["Введите функцию", "Sisesta funktsioon"]</div>
+
+        <div class="valemirida">
+            <span class="fx">f(x) =</span>
+            <math-field id="valem" aria-label="@T["Формула функции", "Funktsiooni valem"]"></math-field>
+            <button type="button" id="arvutaNupp" class="nupp-arvuta" title="@T["Посчитать (Enter)", "Arvuta (Enter)"]">@T["Посчитать", "Arvuta"]</button>
+        </div>
+
+        <!-- Parameetrid a, b, c … ilmuvad, kui need on valemis -->
+        <div id="parameetrid" class="parameetrid" hidden>
+            <div class="parameetrid-pea">@T["Параметры — двигайте ползунки и смотрите, как меняется график", "Parameetrid — liiguta liugureid ja vaata, kuidas graafik muutub"]</div>
+            <div id="paramRead"></div>
+        </div>
+
+        <div class="naited">
+            <span class="naited-silt">@T["Примеры:", "Näited:"]</span>
+            <button type="button" class="naide" data-valem="x^3 - 3*x">x³ − 3x</button>
+            <button type="button" class="naide" data-valem="x^2 - 4*x + 3">x² − 4x + 3</button>
+            <button type="button" class="naide" data-valem="x^4 - 2*x^2">x⁴ − 2x²</button>
+            <button type="button" class="naide" data-valem="(x^2 + 1)/x">(x² + 1) / x</button>
+            <button type="button" class="naide" data-valem="x*exp(x)">x · eˣ</button>
+            <button type="button" class="naide" data-valem="ln(x)/x">ln x / x</button>
+            <button type="button" class="naide" data-valem="(4 - x^2)^(1/2)">√(4 − x²)</button>
+            <button type="button" class="naide" data-valem="a*x^2 + b*x + c" title="@T["С параметрами", "Parameetritega"]">a·x² + b·x + c</button>
+        </div>
+        <div id="ajalugu" class="ajalugu" hidden></div>
+
+        <div class="klaviatuur" id="klaviatuur" aria-label="@T["Математическая клавиатура", "Matemaatika klaviatuur"]"></div>
+        <div class="klav-jalus">
+            <span class="vihje">@T["Можно печатать и с обычной клавиатуры:", "Võid kirjutada ka tavalise klaviatuuriga:"] <kbd>^</kbd> @T["степень", "aste"], <kbd>/</kbd> @T["дробь", "murd"], <kbd>sqrt</kbd> @T["корень", "juur"], <kbd>pi</kbd>, <kbd>←</kbd> <kbd>→</kbd> @T["курсор", "liigu"], <kbd>Enter</kbd> @T["посчитать", "arvuta"]. @T["Буквы a, b, c, k — параметры.", "Tähed a, b, c, k on parameetrid."]</span>
+            <button type="button" class="nupp-vaike" id="klavLuliti">@T["Скрыть клавиатуру", "Peida klaviatuur"]</button>
+        </div>
+        <!-- Viga näidatakse klaviatuuri all ja ainult "Arvuta" / Enter vajutamisel – kirjutamise ajal leht ei hüppa -->
+        <div id="viga" class="viga" role="alert" hidden></div>
+    </section>
+
+    <!-- 2. MIDA LEIDA -->
+    <section class="kaart">
+        <div class="samm-silt"><span>2</span> @T["Что нужно найти?", "Mida soovid leida?"]</div>
+        <div class="valikud" id="valikud" role="tablist"></div>
+    </section>
+
+    <!-- 3. TULEMUS + GRAAFIK -->
+    <div class="tulemused" id="tulemused">
+        <section class="kaart vastuskaart" id="vastuskaart">
+            <div class="samm-silt"><span>3</span> <span id="tulemusPealkiri">@T["Результат", "Tulemus"]</span></div>
+            <div class="toorist">
+                <div class="nupugrupp" role="group" aria-label="@T["Обучение", "Õppimine"]">
+                    <span class="grupi-silt">@T["Обучение", "Õppimine"]</span>
+                    <button type="button" id="iseNupp" aria-pressed="false" title="@T["Ответы скрыты, пока не нажмёте на них", "Vastused on peidus, kuni neile klõpsad"]">@T["Сначала сам", "Proovi ise"]</button>
+                    <button type="button" id="sammNupp" aria-pressed="false" title="@T["Показывать решение по одному шагу", "Näita lahendust samm-sammult"]">@T["По шагам", "Samm-sammult"]</button>
+                </div>
+                <div class="nupugrupp" role="group" aria-label="@T["Печать", "Printimine"]">
+                    <span class="grupi-silt">PDF</span>
+                    <button type="button" id="pdfLuhike" title="@T["Сохранить в PDF: ответы и график", "Salvesta PDF-ina: vastused ja graafik"]">@T["Кратко", "Lühidalt"]</button>
+                    <button type="button" id="pdfTais" title="@T["Сохранить в PDF: ответы, график и всё решение по шагам с пояснениями", "Salvesta PDF-ina: vastused, graafik ja kogu lahenduskäik koos selgitustega"]">@T["Подробно", "Põhjalikult"]</button>
+                </div>
+            </div>
+            <div id="lisaSisend" class="lisasisend" hidden>
+                <label for="x0Vali" id="x0Silt">x₀ =</label>
+                <input id="x0Vali" type="number" step="any" value="1" inputmode="decimal" />
+                <span class="vihje">@T["или перетащите точку на графике", "või lohista punkti graafikul"]</span>
+            </div>
+            <div id="tulemus" aria-live="polite"></div>
+        </section>
+
+        <section class="kaart graafikukaart" id="graafikukaart">
+            <div class="samm-silt"><span>4</span> @T["График", "Graafik"]</div>
+            <div class="graafiku-riba">
+                <!-- Kõik lülitid ühes reas: jooned ja erilised punktid -->
+                <div class="nupugrupp lulitigrupp" role="group" aria-label="@T["Что показать на графике", "Mida graafikul näidata"]">
+                    <label class="lahter"><input type="checkbox" id="naitaD1" /><span class="joon d1"></span>f'(x)</label>
+                    <label class="lahter"><input type="checkbox" id="naitaD2" /><span class="joon d2"></span>f''(x)</label>
+                    <label class="lahter"><input type="checkbox" id="naitaPuutuja" /><span class="joon puut"></span>@T["касательная", "puutuja"]</label>
+                    <label class="lahter"><input type="checkbox" id="naitaNormaal" /><span class="joon norm"></span>@T["нормаль", "normaal"]</label>
+                    <label class="lahter" title="@T["Особые точки (нули, экстремумы, перегибы) с подписями", "Erilised punktid (nullkohad, ekstreemumid, käänupunktid) koos siltidega"]"><input type="checkbox" id="naitaPunktid" checked /><span class="punkt-ikoon"></span>@T["точки", "punktid"]</label>
+                </div>
+            </div>
+            <div class="louendikast">
+                <canvas id="graafik" aria-label="@T["График функции", "Funktsiooni graafik"]"></canvas>
+                <!-- Abitööriistad eraldi tulbas graafiku paremas servas -->
+                <div class="graafiku-tooriistad">
+                    <div class="tooriista-grupp" role="group" aria-label="@T["Масштаб", "Suum"]">
+                        <button type="button" data-suum="sisse" title="@T["Приблизить", "Suurenda"]">+</button>
+                        <button type="button" data-suum="valja" title="@T["Отдалить", "Vähenda"]">−</button>
+                        <button type="button" data-suum="sobita" title="@T["Показать все важные точки", "Näita kõiki olulisi punkte"]">⟲</button>
+                        <button type="button" data-suum="1:1" title="@T["Одинаковый масштаб по осям", "Võrdne mõõtkava"]">1:1</button>
+                    </div>
+                    <div class="tooriista-grupp">
+                        <button type="button" data-suum="png" title="@T["Скачать график как картинку", "Laadi graafik pildina alla"]">PNG</button>
+                    </div>
+                </div>
+                <div id="margiSelgitus" class="margi-selgitus" role="dialog" aria-live="polite" hidden></div>
+            </div>
+            <div class="legend" id="legend"></div>
+            <div class="vihje graafiku-vihje">@T["Нажмите на цветную точку на графике — узнаете, как её нашли. Перетаскивание — сдвиг, колесо мыши — масштаб, чёрную точку можно двигать вдоль графика.", "Klõpsa graafikul värvilisel punktil – näed, kuidas see leiti. Lohista = liiguta, ratas = suumi, musta punkti saab lohistada mööda graafikut."]</div>
+
+            <div class="uurija">
+                <div class="uurija-pea">@T["Исследуйте точку", "Uuri punkti"]</div>
+                <label for="liugur" class="uurija-silt">@T["Двигайте ползунок или чёрную точку на графике — внизу видно, что происходит в этой точке.", "Liiguta liugurit või musta punkti graafikul – all on näha, mis selles punktis toimub."]</label>
+                <input type="range" id="liugur" min="-6" max="6" step="0.01" value="1" />
+                <div id="uurijaInfo" class="uurija-info"></div>
+            </div>
+        </section>
+    </div>
+
+    <form id="salvestaVorm" asp-controller="Funktsioonid" asp-action="Create" method="post" hidden>
+        <input type="hidden" name="Valem" id="salvestaValem" />
+    </form>
+</div>
+
+@section Scripts {
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css" />
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjs@13.2.0/lib/browser/math.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/mathlive@0.101.0/dist/mathlive.min.js"></script>
+    <script src="~/js/valem.js" asp-append-version="true"></script>
+    <script src="~/js/plotter.js" asp-append-version="true"></script>
+    <script src="~/js/arvuta.js" asp-append-version="true"></script>
+}

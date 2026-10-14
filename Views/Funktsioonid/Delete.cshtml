@@ -1,0 +1,13 @@
+@model FunktsiooniUurimine
+@{
+    ViewData["Title"] = T["Удаление", "Kustuta"];
+}
+
+<h1 class="h3 mb-3">@T["Удалить функцию?", "Kustuta funktsioon?"]</h1>
+<p>@T["Удалить", "Kas kustutada"] <code>@Model.Valem</code> @T["и её исследование? Это нельзя отменить.", "ja selle analüüs? Seda ei saa tagasi võtta."]</p>
+
+<form asp-action="Delete" method="post">
+    <input type="hidden" asp-for="Id" />
+    <button type="submit" class="btn btn-danger">@T["Удалить", "Kustuta"]</button>
+    <a asp-action="Index" class="btn btn-link">@T["Отмена", "Tühista"]</a>
+</form>
